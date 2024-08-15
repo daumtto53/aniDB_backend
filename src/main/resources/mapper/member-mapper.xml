@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aniDB.aniDB_backend.mapper.MemberMapper">
+
+    <insert id="insertMember"
+            useGeneratedKeys="true" keyColumn="member_id" keyProperty="memberId"
+            parameterType="com.aniDB.aniDB_backend.entity.Member">
+        INSERT
+        INTO anidb_member (username, loginid, member_password, email, isFromSocial, isDisabled, name, nickname, birthday, gender, member_description)
+        VALUES (
+        #{username},
+        #{loginId},
+        #{password},
+        #{email},
+        #{isFromSocial},
+        #{isDisabled},
+        #{name},
+        #{nickname},
+        #{birthday},
+        #{gender},
+        #{description}
+        )
+    </insert>
+
+    <insert id="insertMemberNecessary"
+            useGeneratedKeys="true" keyColumn="member_id" keyProperty="memberId"
+            parameterType="com.aniDB.aniDB_backend.entity.Member">
+        INSERT IGNORE INTO anidb_member (loginid, username, member_password)
+            VALUES (
+        #{loginId},
+        #{username},
+        #{password}
+        )
+    </insert>
+
+    <select id="selectMemberById" parameterType="java.lang.Long" resultType="com.aniDB.aniDB_backend.entity.Member">
+        SELECT member_id AS memberId,
+               username,
+               loginid AS loginId,
+               member_password as memberPassword,
+               email,
+               isFromSocial,
+               isDisabled,
+               member_name as name,
+               nickname,
+               birthday,
+               gender,
+               member_description as description
+        FROM anidb_member
+        WHERE member_id = #{memberId}
+    </select>
+
+    <update id="updateMember" parameterType="com.aniDB.aniDB_backend.entity.Member">
+        UPDATE member
+        SET username     = #{username},
+            login_id     = #{loginId},
+            password     = #{password},
+            email        = #{email},
+            isFromSocial = #{isFromSocial},
+            isDisabled   = #{isDisabled},
+            name         = #{name},
+            nickname     = #{nickname},
+            birthday     = #{birthday},
+            gender       = #{gender},
+            description  = #{member_description}
+        WHERE member_id = #{memberId}
+    </update>
+
+    <delete id="deleteMember" parameterType="int">
+        DELETE
+        FROM anidb_member
+        WHERE member_id = #{memberId}
+    </delete>
+
+    <select id="selectAllMembers" resultType="java.util.List">
+        SELECT member_id AS memberId,
+               username,
+               loginid AS loginId,
+               member_password as memberPassword,
+               email,
+               isFromSocial,
+               isDisabled,
+               member_name as name,
+               nickname,
+               birthday,
+               gender,
+               member_description as description
+        FROM anidb_member
+    </select>
+
+</mapper>
