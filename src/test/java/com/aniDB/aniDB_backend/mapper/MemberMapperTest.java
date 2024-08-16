@@ -42,6 +42,7 @@ class MemberMapperTest {
     }
 
     @Test
+    @Order(1)
     void insertMember() {
 
     }
@@ -61,6 +62,7 @@ class MemberMapperTest {
         //then
         Member getMember = memberRepository.findById(member.getMemberId());
         Assertions.assertThat(getMember.getMemberId()).isEqualTo(member.getMemberId());
+        System.out.println(memberRepository.findAll());
     }
 
     @Test
@@ -76,7 +78,7 @@ class MemberMapperTest {
     }
 
     @Test
-    @Order(Integer.MAX_VALUE)
+    @Order(Integer.MAX_VALUE-1)
     void deleteMember() {
         int effectRows = memberRepository.delete(setupMemberid.intValue());
 
@@ -85,10 +87,12 @@ class MemberMapperTest {
     }
 
     @Test
-    @Order(Integer.MAX_VALUE - 1)
+    @Order(2)
     void selectAllMembers() {
         List<Member> memberList = memberRepository.findAll();
-
+        System.out.println(memberList);
+        System.out.println(setupMemberid);
+        Assertions.assertThat(memberList.size()).isEqualTo(1);
     }
 
 }

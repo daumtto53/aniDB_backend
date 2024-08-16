@@ -37,7 +37,7 @@
         SELECT member_id AS memberId,
                username,
                loginid AS loginId,
-               member_password as memberPassword,
+               member_password as password,
                email,
                isFromSocial,
                isDisabled,
@@ -72,11 +72,11 @@
         WHERE member_id = #{memberId}
     </delete>
 
-    <select id="selectAllMembers" resultType="java.util.List">
+    <select id="selectAllMembers" resultType="com.aniDB.aniDB_backend.entity.Member">
         SELECT member_id AS memberId,
                username,
                loginid AS loginId,
-               member_password as memberPassword,
+               member_password as password,
                email,
                isFromSocial,
                isDisabled,
