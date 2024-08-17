@@ -23,7 +23,8 @@
         SELECT COUNT(*) FROM publisher
     </select>
 
-    <insert id="insert" parameterType="com.aniDB.aniDB_backend.entity.Publisher" useGeneratedKeys="true" keyProperty="publisherId">
+    <insert id="insert" parameterType="com.aniDB.aniDB_backend.entity.Publisher" useGeneratedKeys="true"
+            keyProperty="publisherId" keyColumn="publisher_id">
         INSERT INTO publisher (publisher_name, website_url, parent_publisher_id)
         VALUES (#{publisherName}, #{websiteUrl}, #{parentPublisher})
     </insert>
