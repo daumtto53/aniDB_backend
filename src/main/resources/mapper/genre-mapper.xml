@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.GenreMapper">
+    <resultMap id="GenreResultMap" type="com.aniDB.aniDB_backend.entity.Genre">
+        <id column="genre_id" property="genreId" />
+        <result column="genre_name" property="genreName" />
+        <result column="genre_description" property="description" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="getById" resultMap="GenreResultMap">
+        SELECT * FROM genre WHERE genre_id = #{genreId}
+    </select>
+
+    <select id="getAll" resultMap="GenreResultMap">
+        SELECT * FROM genre
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM genre
+    </select>
+
+    <insert id="insert" parameterType="com.aniDB.aniDB_backend.entity.Genre" useGeneratedKeys="true" keyProperty="genreId" keyColumn="genre_id">
+        INSERT INTO genre (genre_name, genre_description)
+        VALUES (#{genreName}, #{description})
+    </insert>
+
+    <update id="update" parameterType="com.aniDB.aniDB_backend.entity.Genre">
+        UPDATE genre
+        SET genre_name = #{genreName},
+            genre_description = #{description}
+        WHERE genre_id = #{genreId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM genre WHERE genre_id = #{genreId}
+    </delete>
+</mapper>
