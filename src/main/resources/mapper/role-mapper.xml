@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aniDB.aniDB_backend.mapper.RoleMapper">
+
+    <insert id="insertRole"
+            useGeneratedKeys="true" keyColumn="role_id" keyProperty="roleId"
+            parameterType="com.aniDB.aniDB_backend.entity.Role">
+        INSERT IGNORE INTO anidb_role (role_name)
+        VALUES (#{roleName})
+    </insert>
+
+    <select id="selectRoleById" parameterType="java.lang.Long" resultType="com.aniDB.aniDB_backend.entity.Role">
+        SELECT
+            role_id as roleId,
+            role_name as roleName
+        FROM anidb_role WHERE role_id = #{roleId}
+    </select>
+
+    <select id="selectRoleByRoleName" parameterType="java.lang.String" resultType="com.aniDB.aniDB_backend.entity.Role">
+        SELECT
+            role_id as roleId,
+            role_name as roleName
+        FROM anidb_role WHERE role_name = #{roleName}
+    </select>
+
+    <update id="updateRole" parameterType="com.aniDB.aniDB_backend.entity.Role">
+        UPDATE anidb_role
+        SET
+            role_name = #{roleName}
+        WHERE role_id = #{roleId}
+    </update>
+
+    <delete id="deleteRole" parameterType="java.lang.Long">
+        DELETE FROM anidb_role WHERE role_id = #{roleId}
+    </delete>
+
+    <select id="selectAllRoles" resultType="com.aniDB.aniDB_backend.entity.Role">
+        SELECT
+            role_id as roleId,
+            role_name as roleName
+        FROM anidb_role
+    </select>
+
+</mapper>
