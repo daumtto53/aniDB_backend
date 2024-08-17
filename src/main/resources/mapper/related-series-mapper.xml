@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.RelatedSeriesMapper">
+    <resultMap id="RelatedSeriesResultMap" type="com.aniDB.aniDB_backend.entity.RelatedSeries">
+        <id column="related_publication_id" property="relatedPublicationId" />
+        <id column="publication_id" property="publicationId" />
+        <result column="relation" property="relation" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getRelatedSeriesById" parameterType="map" resultMap="RelatedSeriesResultMap">
+        SELECT * FROM related_series WHERE related_publication_id = #{relatedPublicationId}
+            AND publication_id = #{publicationId}
+    </select>
+
+    <select id="getRelatedSeriesByPublicationId" parameterType="java.lang.Long" resultMap="RelatedSeriesResultMap">
+        SELECT * FROM related_series WHERE publication_id = #{publicationId}
+    </select>
+
+    <insert id="insertRelatedSeries" parameterType="com.aniDB.aniDB_backend.entity.RelatedSeries"
+            useGeneratedKeys="true" keyColumn="related_publication_id" keyProperty="relatedPublicationId"
+    >
+        INSERT INTO related_series (related_publication_id, publication_id, relation)
+        VALUES (#{relatedPublicationId}, #{publicationId}, #{relation})
+    </insert>
+
+    <update id="updateRelatedSeries" parameterType="com.aniDB.aniDB_backend.entity.RelatedSeries">
+        UPDATE related_series
+        SET relation = #{relation}
+        WHERE related_publication_id = #{relatedPublicationId} AND publication_id = #{publicationId}
+    </update>
+
+    <delete id="deleteRelatedSeries">
+        DELETE FROM related_series
+        WHERE related_publication_id = #{relatedPublicationId} AND publication_id = #{publicationId}
+    </delete>
+</mapper>
