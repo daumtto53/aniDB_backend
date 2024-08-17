@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class MemberRole {
-    private Integer memberId;
-    private Integer roleId;
+    private Long memberId;
+    private Long roleId;
 }
