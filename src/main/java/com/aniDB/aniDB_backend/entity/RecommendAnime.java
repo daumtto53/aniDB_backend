@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class RecommendAnime {
-    private Integer memberId;
-    private Integer animeId;
+    private Long memberId;
+    private Long animeId;
     private String discussion;
 }

@@ -2,6 +2,7 @@ package com.aniDB.aniDB_backend.entity;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,23 +16,21 @@ public class Publication {
     private Long publicationId;
     private String title;
     private String description;
-    private int typeId;
+    private int seriesType;
     @Builder.Default
-    private int statusInOriginCountry = 0;
+    private int volumesInOriginCountry= 0;
     @Builder.Default
-    private String status = "Ongoing"; // Default value "Ongoing"
-    private LocalDate published_date;
+    private String statusInOriginCountry = "Ongoing"; // Default value "Ongoing"
+    private LocalDateTime publishedDate;
     @Builder.Default
     private boolean licensed = false; // Default value false
     @Builder.Default
     private int ranked = 0;
     @Builder.Default
-    private int upvotes = 0;
-    @Builder.Default
     private double scores = 0.0; // Default value 0.0
-    @Builder.Default
-    private int followedBy = 0;
     private String coverImageUrl;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     private List<AlternativeTitle> alternativeTitleList;
     private List<RelatedSeries> relatedSeriesList;

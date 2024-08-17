@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aniDB.aniDB_backend.entity.RecommendAnime">
+
+    <insert id="insertRecommendAnime" parameterType="com.aniDB.aniDB_backend.entity.RecommendAnime">
+        INSERT INTO recommend_anime (member_id, anime_id, discussion)
+        VALUES (#{memberId}, #{animeId}, #{discussion})
+    </insert>
+
+    <select id="selectRecommendAnimeById" parameterType="map" resultType="com.aniDB.aniDB_backend.entity.RecommendAnime">
+        SELECT * FROM recommend_anime WHERE member_id = #{memberId} AND anime_id = #{animeId}
+    </select>
+
+    <update id="updateRecommendAnime" parameterType="com.aniDB.aniDB_backend.entity.RecommendAnime">
+        UPDATE recommend_anime
+        SET
+            discussion = #{discussion}
+        WHERE member_id = #{memberId} AND anime_id = #{animeId}
+    </update>
+
+    <delete id="deleteRecommendAnime" parameterType="map">
+        DELETE FROM recommend_anime WHERE member_id = #{memberId} AND anime_id = #{animeId}
+    </delete>
+
+    <select id="selectAllRecommendAnime" resultType="com.aniDB.aniDB_backend.entity.RecommendAnime">
+        SELECT * FROM recommend_anime
+    </select>
+
+</mapper>

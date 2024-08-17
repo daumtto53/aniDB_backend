@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.PublicationMapper">
+    <resultMap id="publicationResultMap" type="com.aniDB.aniDB_backend.entity.Publication">
+        <id property="publicationId" column="publication_id" />
+        <result property="title" column="title" />
+        <result property="description" column="description" />
+        <result property="seriesType" column="series_type" />
+        <result property="volumesInOriginCountry" column="volumes_in_origin_country" />
+        <result property="statusInOriginCountry" column="status_in_origin_country" />
+        <result property="publishedDate" column="published_date" />
+        <result property="licensed" column="licensed" />
+        <result property="ranked" column="ranked" />
+        <result property="scores" column="scores" />
+        <result property="coverImageUrl" column="cover_image_url" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <select id="selectPublicationById" parameterType="java.lang.Long" resultMap="publicationResultMap">
+        SELECT * FROM publication WHERE publication_id = #{publicationId}
+    </select>
+
+    <select id="selectPublicationByTitle" resultMap="publicationResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM publication
+        WHERE title = #{title}
+    </select>
+
+    <!-- title=String, series_type=String   -->
+    <select id="selectPublicationByTitleAndSeriesType" parameterType="map" resultMap="publicationResultMap">
+        SELECT * FROM publication
+            WHERE title = #{title} and
+                series_type = (SELECT type_id
+                               FROM series_type
+                               WHERE type_name like #{typeName})
+    </select>
+
+
+    <!-- TODO select title, seriesType, volumesInOriginCountry(from x to y), statusInOriginCountry, publishedDate(from x to y), scores(from x to y)   -->
+
+    <!--  TODO  연관관계 매핑..  -->
+
+    <select id="selectAllPublications" resultMap="publicationResultMap">
+        SELECT * FROM publication
+    </select>
+
+    <select id="countAllPublications" resultType="int">
+        SELECT COUNT(*)
+        FROM publication
+    </select>
+
+    <insert id="insertPublication"
+            useGeneratedKeys="true" keyColumn="publication_id" keyProperty="publicationId"
+            parameterType="com.aniDB.aniDB_backend.entity.Publication"
+    >
+        INSERT INTO publication (title, description, series_type, volumes_in_origin_country, status_in_origin_country,
+                                 published_date, licensed, ranked, scores, cover_image_url)
+        VALUES (#{title}, #{description}, #{seriesType}, #{volumesInOriginCountry}, #{statusInOriginCountry},
+                 #{publishedDate}, #{licensed}, #{ranked}, #{scores}, #{coverImageUrl})
+    </insert>
+
+<!--    TODO : Mapper too.-->
+    <insert id="insertPublicationNecessary"
+            useGeneratedKeys="true" keyColumn="publication_id" keyProperty="publicationId"
+            parameterType="com.aniDB.aniDB_backend.entity.Publication">
+        INSERT INTO publication (title, series_type)
+            VALUES (#{title}, #{seriesType})
+    </insert>
+
+
+    <update id="updatePublication" parameterType="com.aniDB.aniDB_backend.entity.Publication">
+        UPDATE publication
+        SET title = #{title},
+            description = #{description},
+            series_type = #{seriesType},
+            volumes_in_origin_country = #{volumesInOriginCountry},
+            status_in_origin_country = #{statusInOriginCountry},
+            published_date = #{publishedDate},
+            licensed = #{licensed},
+            ranked = #{ranked},
+            scores = #{scores},
+            cover_image_url = #{coverImageUrl}
+        WHERE publication_id = #{publicationId}
+    </update>
+
+    <delete id="deletePublication" parameterType="java.lang.Long">
+        DELETE FROM publication WHERE publication_id = #{publicationId}
+    </delete>
+
+</mapper>
