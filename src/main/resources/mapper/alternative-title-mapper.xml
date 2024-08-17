@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.AlternativeTitleMapper">
+    <resultMap id="AlternativeTitleResultMap" type="com.aniDB.aniDB_backend.entity.AlternativeTitle">
+        <id column="alternative_title_id" property="alternativeTitleId" />
+        <id column="publication_id" property="publicationId" />
+        <result column="alternative_title" property="alternativeTitle" />
+        <result column="title_language" property="language" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="getAlternativeTitleById" parameterType="map" resultMap="AlternativeTitleResultMap">
+        SELECT * FROM alternative_title
+        WHERE alternative_title_id = #{alternativeTitleId}
+            AND publication_id = #{publicationId}
+
+    </select>
+
+    <select id="getAlternativeTitlesByPublicationId" parameterType="java.lang.Long" resultMap="AlternativeTitleResultMap">
+        SELECT * FROM alternative_title WHERE publication_id = #{publicationId}
+    </select>
+
+    <insert id="insertAlternativeTitle" parameterType="com.aniDB.aniDB_backend.entity.AlternativeTitle"
+            useGeneratedKeys="true" keyColumn="alternative_title_id" keyProperty="alternativeTitleId">
+        INSERT INTO alternative_title (publication_id, alternative_title, title_language)
+        VALUES (#{publicationId}, #{alternativeTitle}, #{language})
+    </insert>
+
+    <update id="updateAlternativeTitle" parameterType="com.aniDB.aniDB_backend.entity.AlternativeTitle">
+        UPDATE alternative_title
+        SET alternative_title = #{alternativeTitle}, title_language = #{language}
+        WHERE alternative_title_id = #{alternativeTitleId}
+    </update>
+
+    <delete id="deleteAlternativeTitle" parameterType="map">
+        DELETE FROM alternative_title
+        WHERE alternative_title_id = #{alternativeTitleId}
+          AND publication_id = #{publicationId}
+    </delete>
+</mapper>

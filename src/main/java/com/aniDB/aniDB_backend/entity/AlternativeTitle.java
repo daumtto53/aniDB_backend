@@ -2,6 +2,8 @@ package com.aniDB.aniDB_backend.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -14,6 +16,8 @@ public class AlternativeTitle {
     private Long publicationId;
     private String alternativeTitle;
     private String language;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
 
 
