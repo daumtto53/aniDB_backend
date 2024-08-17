@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.PublisherMapper">
+    <resultMap id="PublisherResultMap" type="com.aniDB.aniDB_backend.entity.Publisher">
+        <id column="publisher_id" property="publisherId" jdbcType="INTEGER"/>
+        <result column="publisher_name" property="publisherName" jdbcType="VARCHAR"/>
+        <result column="website_url" property="websiteUrl" jdbcType="VARCHAR"/>
+        <result column="parent_publisher_id" property="parentPublisher" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="getByPublisherId" resultType="com.aniDB.aniDB_backend.entity.Publisher">
+        SELECT * FROM publisher WHERE publisher_id = #{publisherId}
+    </select>
+
+    <select id="getAll" resultType="com.aniDB.aniDB_backend.entity.Publisher">
+        SELECT * FROM publisher
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM publisher
+    </select>
+
+    <insert id="insert" parameterType="com.aniDB.aniDB_backend.entity.Publisher" useGeneratedKeys="true" keyProperty="publisherId">
+        INSERT INTO publisher (publisher_name, website_url, parent_publisher_id)
+        VALUES (#{publisherName}, #{websiteUrl}, #{parentPublisher})
+    </insert>
+
+    <update id="update" parameterType="com.aniDB.aniDB_backend.entity.Publisher">
+        UPDATE publisher
+        SET publisher_name = #{publisherName},
+            website_url = #{websiteUrl},
+            parent_publisher_id = #{parentPublisher}
+        WHERE publisher_id = #{publisherId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM publisher WHERE publisher_id = #{publisherId}
+    </delete>
+</mapper>

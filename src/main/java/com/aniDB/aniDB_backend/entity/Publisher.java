@@ -2,6 +2,7 @@ package com.aniDB.aniDB_backend.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,6 +15,8 @@ public class Publisher {
     private  Long publisherId;
     private  String publisherName;
     private  String websiteUrl;
-    //    private  String parentPublisher;
+    private  Long parentPublisher;
     private  List<String> alternativePublisherNameList;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
