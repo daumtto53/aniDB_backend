@@ -6,7 +6,7 @@
             useGeneratedKeys="true" keyColumn="member_id" keyProperty="memberId"
             parameterType="com.aniDB.aniDB_backend.entity.Member">
         INSERT
-        INTO anidb_member (username, loginid, member_password, email, isFromSocial, isDisabled, name, nickname, birthday, gender, member_description)
+        INTO anidb_member (username, loginid, member_password, email, isFromSocial, isDisabled, member_name, nickname, birthday, gender, member_description)
         VALUES (
         #{username},
         #{loginId},
