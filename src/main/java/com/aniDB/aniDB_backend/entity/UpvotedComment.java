@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UpvotedComment {
-    private Integer memberId;
-    private Integer commentId;
-    private Integer upvotedNumber;
+    private Long memberId;
+    private Long commentId;
 }

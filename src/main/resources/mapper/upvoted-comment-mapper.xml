@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.UpvotedCommentMapper">
+    <resultMap id="UpvotedCommentResultMap" type="com.aniDB.aniDB_backend.entity.UpvotedComment">
+        <id property="memberId" column="member_id" />
+        <id property="commentId" column="comment_id" />
+    </resultMap>
+
+    <select id="selectUpvotedCommentById" parameterType="map" resultMap="UpvotedCommentResultMap">
+        SELECT * FROM upvoted_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+    </select>
+
+    <insert id="insertUpvotedComment">
+        INSERT INTO upvoted_comment (member_id, comment_id)
+        VALUES (#{memberId}, #{commentId})
+    </insert>
+
+
+    <delete id="deleteUpvotedComment" parameterType="map">
+        DELETE FROM upvoted_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+    </delete>
+</mapper>
