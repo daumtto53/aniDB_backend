@@ -1,6 +1,9 @@
 package com.aniDB.aniDB_backend.entity;
 
 import lombok.*;
+
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -8,7 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UpvotedPublication {
-    private Integer memberId;
-    private Integer publicationId;
-    private Integer upvotedNumber;
+    private Long memberId;
+    private Long publicationId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
