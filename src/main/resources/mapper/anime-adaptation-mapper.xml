@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aniDB.aniDB_backend.mapper.AnimeAdaptationMapper">
+
+    <resultMap id="AnimeAdaptationResultMap" type="com.aniDB.aniDB_backend.entity.AnimeAdaptation">
+        <id column="anime_adaptation_id" property="animeAdaptationId" jdbcType="BIGINT"/>
+        <result column="publication_id" property="publicationId" jdbcType="BIGINT"/>
+        <result column="anime_id" property="animeId" jdbcType="BIGINT"/>
+        <result column="anime_name" property="animeName" />
+        <result column="anime_type" property="animeType" jdbcType="INTEGER"/>
+        <result column="publication_start" property="publicationStart" jdbcType="INTEGER"/>
+        <result column="publication_end" property="publicationEnd" jdbcType="INTEGER"/>
+        <result column="anime_start" property="animeStart" jdbcType="INTEGER"/>
+        <result column="anime_end" property="animeEnd" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.aniDB.aniDB_backend.entity.AnimeAdaptation"
+        useGeneratedKeys="true" keyColumn="anime_adaptation_id" keyProperty="animeAdaptationId"
+    >
+        INSERT INTO anime_adaptation (publication_id, anime_id, anime_type, anime_name, publication_start, publication_end, anime_start, anime_end)
+        VALUES (#{publicationId}, #{animeId}, #{animeType}, #{animeName}, #{publicationStart}, #{publicationEnd}, #{animeStart}, #{animeEnd})
+    </insert>
+
+    <select id="selectByAnimeAdaptationId" resultMap="AnimeAdaptationResultMap">
+        SELECT * FROM anime_adaptation WHERE anime_adaptation_id = #{animeAdaptationId}
+    </select>
+
+    <update id="update" parameterType="com.aniDB.aniDB_backend.entity.AnimeAdaptation">
+        UPDATE anime_adaptation
+        SET publication_id = #{publicationId},
+            anime_id = #{animeId},
+            anime_type = #{animeType},
+            publication_start = #{publicationStart},
+            publication_end = #{publicationEnd},
+            anime_start = #{animeStart},
+            anime_end = #{animeEnd}
+        WHERE anime_adaptation_id = #{animeAdaptationId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM anime_adaptation WHERE anime_adaptation_id = #{animeAdaptationId}
+    </delete>
+</mapper>
