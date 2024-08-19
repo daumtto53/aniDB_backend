@@ -62,6 +62,7 @@ class SeriesCommentMapperTest {
     @Test
     void selectSeriesCommentsByPublicationId() {
         List<SeriesComment> seriesComments = seriesCommentMapper.selectSeriesCommentsByPublicationId(publication.getPublicationId());
+        System.out.println(seriesComments);
         Assertions.assertThat(seriesComments.size()).isEqualTo(1);
         Assertions.assertThat(seriesComments.get(0).getAnidbComment()).isEqualTo("comment");
     }

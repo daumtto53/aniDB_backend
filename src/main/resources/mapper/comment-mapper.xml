@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.CommentMapper">
+    <resultMap id="CommentResultMap" type="com.aniDB.aniDB_backend.entity.Comment">
+        <id property="commentId" column="comment_id" />
+        <id property="memberId" column="member_id" />
+        <id property="articleId" column="article_id" />
+        <result property="content" column="content" />
+        <result property="upvotes" column="upvotes" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="selectCommentById" parameterType="java.lang.Long" resultMap="CommentResultMap">
+        SELECT * FROM anidb_comment WHERE comment_id = #{commentId}
+    </select>
+
+    <select id="selectAllCommentsByArticleId" parameterType="java.lang.Long" resultMap="CommentResultMap">
+        SELECT * FROM anidb_comment WHERE article_id = #{articleId}
+    </select>
+
+    <insert id="insertComment"
+            useGeneratedKeys="true" keyProperty="commentId" keyColumn="comment_id"
+        parameterType="com.aniDB.aniDB_backend.entity.Comment"
+    >
+        INSERT INTO anidb_comment (member_id, article_id, content, upvotes)
+        VALUES (#{memberId}, #{articleId}, #{content}, #{upvotes})
+    </insert>
+
+    <update id="updateComment" parameterType="com.aniDB.aniDB_backend.entity.Comment">
+        UPDATE anidb_comment SET
+        content = #{content},
+        upvotes = #{upvotes}
+        WHERE comment_id = #{commentId}
+    </update>
+
+    <delete id="deleteCommentById" parameterType="java.lang.Long">
+        DELETE FROM anidb_comment WHERE comment_id = #{commentId}
+    </delete>
+</mapper>

@@ -2,6 +2,8 @@ package com.aniDB.aniDB_backend.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -9,9 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Comment {
-    private Integer commentId;
-    private Integer memberId;
-    private Integer articleId;
+    private Long commentId;
+    private Long memberId;
+    private Long articleId;
     private String content;
-    private Integer upvotes;
+    private Long upvotes;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

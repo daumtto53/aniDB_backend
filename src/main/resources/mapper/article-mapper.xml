@@ -4,7 +4,7 @@
 <mapper namespace="com.aniDB.aniDB_backend.mapper.ArticleMapper">
     <resultMap id="ArticleResultMap" type="com.aniDB.aniDB_backend.entity.Article">
         <id property="articleId" column="article_id" />
-        <result property="memberId" column="member_id" />
+        <id property="memberId" column="member_id" />
         <result property="animeId" column="anime_id" />
         <result property="publicationId" column="publication_id" />
         <result property="title" column="title" />

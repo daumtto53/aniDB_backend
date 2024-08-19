@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class SeriesComment {
-    Long publicationId;
-    Long memberId;
-    String anidbComment;
-    LocalDateTime createdAt;
-    LocalDateTime updatedAt;
+    private Long publicationId;
+    private Long memberId;
+    private String anidbComment;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
