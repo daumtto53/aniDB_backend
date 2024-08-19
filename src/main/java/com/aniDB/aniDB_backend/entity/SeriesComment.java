@@ -14,6 +14,6 @@ public class SeriesComment {
     Long publicationId;
     Long memberId;
     String anidbComment;
-    LocalDateTime created_at;
-    LocalDateTime updated_at;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
