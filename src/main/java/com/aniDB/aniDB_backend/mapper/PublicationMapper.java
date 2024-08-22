@@ -19,7 +19,6 @@ public interface PublicationMapper {
 
     List<Publication> selectAllPublications();
 
-    List<Publication> getPage(Pageable pageable);
     PublicationDTO getPublicationDTOById(Long publicationId);
 
 
@@ -32,5 +31,6 @@ public interface PublicationMapper {
     int deletePublication(Long publicationId);
 
 
+    List<Publication> getPage(Pageable pageable);
 
 }

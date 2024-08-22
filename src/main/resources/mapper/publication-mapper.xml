@@ -81,6 +81,19 @@
     </resultMap>
 <!--           FOR PUBLICATION INFO RETRIEVAL             -->
 
+<!--    FOR PUBLICATION PEEK PAGE-->
+    <resultMap id="PublicationPageDTOMap" type="com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO">
+        <id property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="ranked" column="ranked"/>
+        <result property="scores" column="scores"/>
+        <result property="coverImageUrl" column="cover_image_url"/>
+
+        <result property="seriesType" column="st_type_name"/>
+        <result property="upvotes" column="upvotes"/>
+    </resultMap>
+<!--    FOR PUBLICATION PEEK PAGE-->
+
 
 <!--            FOR Publication + SeriesCommentMapping -->
     <resultMap id="SeriesCommentDTOMap" type="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
@@ -158,13 +171,6 @@
         SELECT * FROM publication
     </select>
 
-    <select id="getPage" parameterType="org.springframework.data.domain.Pageable" resultMap="publicationResultMap">
-        SELECT *
-        FROM publication
-        ORDER BY title ASC
-        LIMIT #{pageSize}
-        OFFSET #{pageNumber}
-    </select>
 
     <select id="getPublicationDTOById" parameterType="java.lang.Long" resultMap="publicationDTOResultMap">
         SELECT
@@ -254,5 +260,25 @@
     <delete id="deletePublication" parameterType="java.lang.Long">
         DELETE FROM publication WHERE publication_id = #{publicationId}
     </delete>
+
+
+<!--    Pagination Logic  -->
+    <select id="getPage" parameterType="org.springframework.data.domain.Pageable" resultMap="PublicationPageDTOMap">
+        SELECT
+            p.*,
+            st.type_name as st_type_name,
+            (
+                SELECT count(*) as upvotes
+                FROM upvoted_publication u
+                WHERE u.publication_id = p.publication_id
+            )
+
+        FROM publication p
+            INNER JOIN series_type as st ON st.type_id = p.series_type
+        ORDER BY p.title ASC
+        LIMIT #{pageSize}
+        OFFSET #{pageNumber}
+    </select>
+<!--    Pagination Logic  -->
 
 </mapper>

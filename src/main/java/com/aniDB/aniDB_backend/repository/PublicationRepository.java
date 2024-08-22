@@ -57,10 +57,7 @@ public class PublicationRepository {
         return publicationMapper.selectAllPublications();
     }
 
-    @Transactional
-    public List<Publication> getPage(Pageable pageable) {
-        return publicationMapper.getPage(pageable);
-    }
+
 
     @Transactional
     public PublicationDTO getPublicationDTOById(Long publicationId) {
@@ -115,5 +112,11 @@ public class PublicationRepository {
     @Transactional
     public int deleteById(Long publicationId) {
         return publicationMapper.deletePublication(publicationId);
+    }
+
+
+    @Transactional
+    public List<Publication> getPage(Pageable pageable) {
+        return publicationMapper.getPage(pageable);
     }
 }

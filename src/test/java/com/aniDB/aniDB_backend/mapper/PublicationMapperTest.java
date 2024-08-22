@@ -53,6 +53,7 @@ class PublicationMapperTest {
 
     }
 
+
     @Test
     void selectPublicationByTitle() {
         //given
@@ -92,6 +93,20 @@ class PublicationMapperTest {
     }
 
     @Test
+    void getPublicationDTOById() {
+        PublicationDTO dto = publicationMapper.getPublicationDTOById(1L);
+        System.out.println(dto);
+    }
+
+    @Test
+    void selectPublicationWithComments() {
+        List<Publication> publications = publicationMapper.selectPublicationWithComments(1L);
+        System.out.println(publications);
+    }
+
+
+
+    @Test
     void insertPublication() {
         //TODO
     }
@@ -118,26 +133,15 @@ class PublicationMapperTest {
         Assertions.assertThat(cnt).isEqualTo(1);
     }
 
+
+
+
+
     @Test
     void getPage() {
         Pageable pageable = new PageRequestDTO(1).getPageable();
         List<Publication> page = publicationMapper.getPage(pageable);
-        int cnt = publicationMapper.countAllPublications();
         System.out.println(page.size());
         System.out.println(page);
-        System.out.println(cnt);
-    }
-
-
-    @Test
-    void getPublicationDTOById() {
-        PublicationDTO dto = publicationMapper.getPublicationDTOById(1L);
-        System.out.println(dto);
-    }
-
-    @Test
-    void selectPublicationWithComments() {
-        List<Publication> publications = publicationMapper.selectPublicationWithComments(1L);
-        System.out.println(publications);
     }
 }
