@@ -31,10 +31,10 @@ public class Publication {
     private String coverImageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    private List<AlternativeTitle> alternativeTitleList;
-    private List<RelatedSeries> relatedSeriesList;
-    private List<Genre> genres;
-    private List<AnimeAdaptation> animeAdaptationList;
-    private List<String> publisherList;
+//    private List<AlternativeTitle> alternativeTitleList;
+//    private List<RelatedSeries> relatedSeriesList;
+//    private List<Genre> genres;
+//    private List<AnimeAdaptation> animeAdaptationList;
+//    private List<String> publisherList;
+//    private List<SeriesComment> seriesCommentList;
 }

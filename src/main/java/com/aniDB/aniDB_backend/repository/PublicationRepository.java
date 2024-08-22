@@ -1,8 +1,10 @@
 package com.aniDB.aniDB_backend.repository;
 
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import com.aniDB.aniDB_backend.mapper.PublicationMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ public class PublicationRepository {
     public Publication findById(Long publicationId) {
         return publicationMapper.selectPublicationById(publicationId);
     }
+
 
     /**
      * Finds publications by their title.
@@ -53,6 +56,17 @@ public class PublicationRepository {
     public List<Publication> findAll() {
         return publicationMapper.selectAllPublications();
     }
+
+    @Transactional
+    public List<Publication> getPage(Pageable pageable) {
+        return publicationMapper.getPage(pageable);
+    }
+
+    @Transactional
+    public PublicationDTO getPublicationDTOById(Long publicationId) {
+        return publicationMapper.getPublicationDTOById(publicationId);
+    }
+
 
     /**
      * Counts all publications.

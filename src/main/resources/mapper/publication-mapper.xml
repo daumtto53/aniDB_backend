@@ -18,6 +18,112 @@
         <result property="updatedAt" column="updated_at" />
     </resultMap>
 
+<!--           FOR PUBLICATION INFO RETRIEVAL             -->
+    <resultMap id="publicationDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO">
+        <id property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="volumesInOriginCountry" column="volumes_in_origin_country"/>
+        <result property="statusInOriginCountry" column="status_in_origin_country"/>
+        <result property="publishedDate" column="published_date"/>
+        <result property="licensed" column="licensed"/>
+        <result property="ranked" column="ranked"/>
+        <result property="scores" column="scores"/>
+        <result property="coverImageUrl" column="cover_image_url"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+        <result property="seriesType" column="st_type_name"/>
+        <result property="upvotes" column="upvotes"/>
+
+        <!-- Mapping nested collections -->
+        <collection property="alternativeTitleList" ofType="com.aniDB.aniDB_backend.dto.entity.alternative_title.AlternativeTitleDTO">
+            <result property="alternativeTitle" column="at_alternative_title"/>
+            <result property="language" column="at_language"/>
+        </collection>
+
+        <collection property="relatedSeriesList" ofType="com.aniDB.aniDB_backend.dto.entity.related_series.RelatedSeriesDTO">
+            <result property="title" column="rs_title"/>
+            <result property="relation" column="rs_relation"/>
+        </collection>
+
+        <collection property="animeAdaptationList" ofType="com.aniDB.aniDB_backend.dto.entity.anime_adaptation.AnimeAdaptationDTO">
+            <result property="animeId" column="aa_anime_id" />
+            <result property="animeType" column="aa_anime_type" />
+            <result property="animeName" column="aa_anime_name" />
+            <result property="publicationStart" column="aa_publication_start" />
+            <result property="publicationEnd" column="aa_publication_end"/>
+            <result property="animeStart" column="aa_anime_start" />
+            <result property="animeEnd" column="aa_anime_end"/>
+        </collection>
+
+        <collection property="genreList" ofType="java.lang.String">
+            <result property="genreName" column="g_genre_name" />
+        </collection>
+
+        <collection property="publisherList" ofType="java.lang.String">
+            <result property="publisherName" column="pU_publisher_name" />
+        </collection>
+
+        <collection property="seriesCommentList" ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
+            <id property="publicationId" column="publication_id" />
+            <id property="memberId" column="m_member_id"/>
+            <result property="anidbComment" column="sc_anidb_comment"/>
+            <result property="createdAt" column="sc_created_at"/>
+            <result property="updatedAt" column="sc_updated_at"/>
+            <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
+                <id property="memberId" column="m_member_id" />
+                <result property="loginId" column="m_login_id" />
+                <result property="name" column="m_member_name" />
+                <result property="nickname" column="m_nickname" />
+            </association>
+        </collection>
+    </resultMap>
+<!--           FOR PUBLICATION INFO RETRIEVAL             -->
+
+
+<!--            FOR Publication + SeriesCommentMapping -->
+    <resultMap id="SeriesCommentDTOMap" type="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
+        <id property="publicationId" column="publication_id" />
+        <id property="memberId"  column="member_id" />
+        <result property="anidbComment" column="anidb_comment" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+        <association property="memberDTO" column="member_id" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO"
+                     select="com.aniDB.aniDB_backend.mapper.MemberMapper.selectMemberById" >
+        </association>
+    </resultMap>
+
+    <resultMap id="PublicationDTOMap" type="com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO">
+        <id property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="volumesInOriginCountry" column="volumes_in_origin_country"/>
+        <result property="statusInOriginCountry" column="status_in_origin_country"/>
+        <result property="publishedDate" column="published_date"/>
+        <result property="licensed" column="licensed"/>
+        <result property="ranked" column="ranked"/>
+        <result property="scores" column="scores"/>
+        <result property="coverImageUrl" column="cover_image_url"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="seriesType" column="series_type"/>
+
+        <!-- One-to-Many relationship -->
+        <collection property="seriesCommentList" ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO"
+                    resultMap="SeriesCommentDTOMap"/>
+    </resultMap>
+
+
+
+
+
+
+
+
+
+
+
     <select id="selectPublicationById" parameterType="java.lang.Long" resultMap="publicationResultMap">
         SELECT * FROM publication WHERE publication_id = #{publicationId}
     </select>
@@ -28,7 +134,6 @@
         WHERE title = #{title}
     </select>
 
-    <!-- title=String, series_type=String   -->
     <select id="selectPublicationByTitleAndSeriesType" parameterType="map" resultMap="publicationResultMap">
         SELECT * FROM publication
             WHERE title = #{title} and
@@ -37,13 +142,75 @@
                                WHERE type_name like #{typeName})
     </select>
 
+    <!--            FOR Publiation + SeriesCommentMapping -->
+    <select id="selectPublicationWithComments" parameterType="java.lang.Long" resultMap="PublicationDTOMap">
+       SELECT p.*,
+           sc.publication_id, sc.member_id, sc.anidb_comment, sc.created_at, sc.updated_at
+            FROM publication p
+        LEFT JOIN  series_comment sc ON p.publication_id = sc.publication_id
+        WHERE p.publication_id = #{publicationId}
 
-    <!-- TODO select title, seriesType, volumesInOriginCountry(from x to y), statusInOriginCountry, publishedDate(from x to y), scores(from x to y)   -->
+    </select>
+    <!--            FOR Publiation + SeriesCommentMapping -->
 
-    <!--  TODO  연관관계 매핑..  -->
 
     <select id="selectAllPublications" resultMap="publicationResultMap">
         SELECT * FROM publication
+    </select>
+
+    <select id="getPage" parameterType="org.springframework.data.domain.Pageable" resultMap="publicationResultMap">
+        SELECT *
+        FROM publication
+        ORDER BY title ASC
+        LIMIT #{pageSize}
+        OFFSET #{pageNumber}
+    </select>
+
+    <select id="getPublicationDTOById" parameterType="java.lang.Long" resultMap="publicationDTOResultMap">
+        SELECT
+            p.*,
+            at.alternative_title as at_alternative_title,
+            at.title_language as at_language,
+            rs.title as rs_title,
+            rs.relation as rs_relation,
+            aa.anime_id as aa_animeId,
+            aa.anime_type as aa_anime_type,
+            aa.anime_name as aa_anime_name,
+            aa.publication_start as aa_publication_start,
+            aa.publication_end as aa_publication_end,
+            aa.anime_start as aa_anime_start,
+            aa.anime_end as aa_anime_end,
+            sc.publication_id as sc_publication_id,
+            sc.member_id as sc_member_id,
+            sc.anidb_comment as sc_anidb_comment,
+            sc.created_at as sc_created_at,
+            sc.updated_at as sc_updated_at,
+            m.member_id as m_member_id,
+            m.loginid as m_login_id,
+            m.member_name as m_member_name,
+            g.genre_name as g_genre_name,
+            m.nickname as m_nickname,
+            st.type_name as st_type_name,
+            pu.publisher_name as pu_publisher_name,
+            (
+              SELECT count(*) as upvotes
+                FROM upvoted_publication u
+                WHERE u.publication_id = p.publication_id
+            )
+
+        FROM publication p
+            LEFT JOIN alternative_title as at ON p.publication_id = at.publication_id
+            LEFT JOIN related_series as rs ON p.publication_id = rs.publication_id
+            LEFT JOIN anime_adaptation as aa ON p.publication_id = aa.publication_id
+            LEFT JOIN series_comment as sc ON p.publication_id = sc.publication_id
+            LEFT JOIN anidb_member as m ON sc.member_id = m.member_id
+            LEFT JOIN publication_genre as pg ON p.publication_id = pg.publication_id
+                INNER JOIN genre as g ON g.genre_id = pg.genre_id
+            LEFT JOIN series_type as st ON st.type_id = p.series_type
+            LEFT JOIN publication_publisher pp ON pp.publication_id = p.publication_id
+                INNER JOIN publisher pu ON pu.publisher_id = pp.publisher_id
+        WHERE p.publication_id = #{publicationId}
+        ORDER BY p.publication_id ASC
     </select>
 
     <select id="countAllPublications" resultType="int">
@@ -61,7 +228,6 @@
                  #{publishedDate}, #{licensed}, #{ranked}, #{scores}, #{coverImageUrl})
     </insert>
 
-<!--    TODO : Mapper too.-->
     <insert id="insertPublicationNecessary"
             useGeneratedKeys="true" keyColumn="publication_id" keyProperty="publicationId"
             parameterType="com.aniDB.aniDB_backend.entity.Publication">

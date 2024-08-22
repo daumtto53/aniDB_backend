@@ -1,5 +1,7 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
+import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
@@ -9,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -111,5 +116,28 @@ class PublicationMapperTest {
     void deletePublication() {
         int cnt = publicationMapper.deletePublication(publication.getPublicationId());
         Assertions.assertThat(cnt).isEqualTo(1);
+    }
+
+    @Test
+    void getPage() {
+        Pageable pageable = new PageRequestDTO(1).getPageable();
+        List<Publication> page = publicationMapper.getPage(pageable);
+        int cnt = publicationMapper.countAllPublications();
+        System.out.println(page.size());
+        System.out.println(page);
+        System.out.println(cnt);
+    }
+
+
+    @Test
+    void getPublicationDTOById() {
+        PublicationDTO dto = publicationMapper.getPublicationDTOById(1L);
+        System.out.println(dto);
+    }
+
+    @Test
+    void selectPublicationWithComments() {
+        List<Publication> publications = publicationMapper.selectPublicationWithComments(1L);
+        System.out.println(publications);
     }
 }
