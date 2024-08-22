@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.service;
 
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
@@ -39,5 +40,9 @@ public class PublicationService {
         Page<PublicationPageDTO> pageImpl = new PageImpl<>(result, pageable, totalCount);
         PageResultDTO<PublicationPageDTO, PublicationPageDTO> pageResultDTO = new PageResultDTO<>(pageImpl, fn);
         return pageResultDTO;
+    }
+
+    public PublicationDTO getPublicationById(Long publicationId) {
+        return publicationRepository.getPublicationDTOById(publicationId);
     }
 }
