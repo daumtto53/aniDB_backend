@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.service;
 
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
@@ -28,13 +29,15 @@ public class PublicationService {
         3. Page<EN> 객체 생성
         4. Page<EN> 객체를 DTO, PageInfo로 변환하는 클래스.
      */
-    public PageResultDTO<Publication, Publication> getPageResult(int page) {
-        Pageable pageable = new PageRequestDTO(page).getPageable(null);
-        List<Publication> result = publicationRepository.getPage(pageable);
+    public PageResultDTO<PublicationPageDTO, PublicationPageDTO> getPageResult(int page) {
+        Pageable pageable = new PageRequestDTO(page).getPageable();
+        List<PublicationPageDTO> result = publicationRepository.getPage(pageable);
+
         int totalCount = publicationRepository.countAll();
-        Function<Publication, Publication> fn = (en -> en);
-        Page<Publication> pageimpl = new PageImpl<>(result, pageable, totalCount);
-        PageResultDTO<Publication, Publication> pageResultDTO = new PageResultDTO<>(pageimpl, fn);
+
+        Function<PublicationPageDTO, PublicationPageDTO> fn = (en -> en);
+        Page<PublicationPageDTO> pageImpl = new PageImpl<>(result, pageable, totalCount);
+        PageResultDTO<PublicationPageDTO, PublicationPageDTO> pageResultDTO = new PageResultDTO<>(pageImpl, fn);
         return pageResultDTO;
     }
 }

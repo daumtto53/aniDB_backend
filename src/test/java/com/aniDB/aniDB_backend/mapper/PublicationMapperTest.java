@@ -1,6 +1,7 @@
 package com.aniDB.aniDB_backend.mapper;
 
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import org.assertj.core.api.Assert;
@@ -135,12 +136,10 @@ class PublicationMapperTest {
 
 
 
-
-
     @Test
     void getPage() {
         Pageable pageable = new PageRequestDTO(1).getPageable();
-        List<Publication> page = publicationMapper.getPage(pageable);
+        List<PublicationPageDTO> page = publicationMapper.getPage(pageable);
         System.out.println(page.size());
         System.out.println(page);
     }

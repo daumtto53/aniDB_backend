@@ -1,6 +1,7 @@
 package com.aniDB.aniDB_backend.repository;
 
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
+import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import com.aniDB.aniDB_backend.mapper.PublicationMapper;
 import lombok.RequiredArgsConstructor;
@@ -116,7 +117,7 @@ public class PublicationRepository {
 
 
     @Transactional
-    public List<Publication> getPage(Pageable pageable) {
+    public List<PublicationPageDTO> getPage(Pageable pageable) {
         return publicationMapper.getPage(pageable);
     }
 }
