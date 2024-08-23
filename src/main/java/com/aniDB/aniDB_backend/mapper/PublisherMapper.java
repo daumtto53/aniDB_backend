@@ -27,4 +27,5 @@ public interface PublisherMapper {
     int getPublicationCountOfPublisherDescendant(Long publisherId);
     List<LabelDTO> getLabelListById(Long publisherId);
     List<DescendantOfPublisherDTO> getLabelPublicationById(List<LabelDTO> list);
+
 }

@@ -59,4 +59,8 @@ public class PublisherRepository {
         return publisherDTO;
 
     }
+
+    public int countAll() {
+        return publisherMapper.countAll();
+    }
 }

@@ -43,4 +43,9 @@ class PublisherRepositoryTest {
         System.out.println(publisherDTOById.getDescendantPublicationList());
         System.out.println(publisherDTOById.getDescendantPublicationCount());
     }
+
+    @Test
+    void countAll() {
+        System.out.println(publisherRepository.countAll());
+    }
 }
