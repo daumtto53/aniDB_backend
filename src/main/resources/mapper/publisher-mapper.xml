@@ -11,6 +11,116 @@
         <result column="updated_at" property="updatedAt" />
     </resultMap>
 
+    <resultMap id="PublisherPageDTO" type="com.aniDB.aniDB_backend.dto.entity.publisher.PublisherPageDTO">
+        <id property="publisherId" column="publisher_id" />
+        <result property="publisherName" column="publisher_name" />
+        <result property="descendantPublicationCount" column="descendant_publication_count" />
+    </resultMap>
+
+<!--    Publisher INFO 위해서. -->
+    <resultMap id="PublisherDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO">
+        <id column="publisher_id" property="publisherId" jdbcType="INTEGER"/>
+        <result column="publisher_name" property="publisherName" jdbcType="VARCHAR"/>
+        <result column="website_url" property="websiteUrl" jdbcType="VARCHAR"/>
+        <result column="parent_publisher_id" property="parentPublisherId" jdbcType="INTEGER"/>
+        <result column="parent_publisher_name" property="parentPublisherName" />
+
+        <result property="descendantPublicationCount" column="descendant_publication_count" />
+
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+
+        <collection property="alternativePublisherNameList" ofType="java.lang.String">
+            <result property="alternativePublisherName" column="alternative_publisher_name" />
+        </collection>
+    </resultMap>
+<!--    Publisher INFO 위해서. -->
+<!--    DesendantOfPublisherDTO-->
+    <resultMap id="DescendantOfPublisherDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.publisher.DescendantOfPublisherDTO">
+        <id property="publicationId" column="publication_id" />
+        <result property="title" column="title" />
+    </resultMap>
+
+<!--    LabelDTO -->
+    <resultMap id="LabelDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.publisher.LabelDTO">
+        <id property="publisherId" column="publisher_id" />
+        <result property="publisherName" column="publisher_name" />
+    </resultMap>
+
+
+
+
+<!--    하위 레이블 가져오기 // view 처럼 사용-->
+    <sql id="publisherHierarchy">
+        with recursive CTEP (cid, cname, pid, pname) as
+           (
+               select publisher_id, publisher_name, parent_publisher_id,  CAST('' AS CHAR(2048)) AS pname
+               from publisher
+               where publisher_id = #{publisherId}
+
+               UNION
+
+               select child.publisher_id, child.publisher_name, cte.cid, cte.cname
+               from CTEP as cte
+                        inner join publisher as child on cte.cid = child.parent_publisher_id
+           )
+    </sql>
+<!--    하위 레이블 가져오기 // view 처럼 사용-->
+
+<!--    하위 레이블의 publication Count 는 따로 가져올 것..-->
+    <select id="getPublisherPageDTO" parameterType="org.springframework.data.domain.Pageable"
+            resultMap="PublisherPageDTO">
+        SELECT publisher_id, publisher_name
+        FROM publisher
+        ORDER BY publisher_name ASC
+        LIMIT #{pageSize}
+        OFFSET #{pageNumber}
+    </select>
+
+<!--    하위 레이블의 publication Count 는 따로 가져올 것..-->
+    <select id="getPublicationCountOfPublisherDescendant" parameterType="java.lang.Long" resultType="int" >
+        <include refid="publisherHierarchy" />
+        SELECT  COUNT(distinct pp.publication_id)
+        FROM    publication_publisher pp
+        WHERE   pp.publisher_id IN (select cid from CTEP)
+    </select>
+
+<!--    하위 레이블의 publication List 가져오기 -->
+    <select id="getPublisherDTOById" parameterType="java.lang.Long" resultMap="PublisherDTOResultMap">
+        <include refid="publisherHierarchy" />
+        SELECT
+            this.publisher_id,
+            this.publisher_name,
+            this.website_url,
+            this.parent_publisher_id,
+            p.publisher_name as parent_publisher_name,
+            ap.alternative_name as alternative_publisher_name,
+            this.created_at,
+            this.updated_at
+        FROM publisher as this
+            LEFT JOIN alternative_publisher_name ap on this.publisher_id = ap.original_publisher_id
+            LEFT JOIN publisher p on this.parent_publisher_id = p.publisher_id
+        WHERE this.publisher_id = #{publisher_id}
+    </select>
+    
+    <select id="getLabelListById" parameterType="java.lang.Long" resultMap="LabelDTOResultMap">
+        <include refid="publisherHierarchy" />
+        select cid as publisher_id, cname as publisher_name
+        from ctep;
+    </select>
+
+    <select id="getLabelPublicationById" parameterType="java.util.List" resultMap="DescendantOfPublisherDTOResultMap">
+        SELECT p.publication_id, p.title
+        FROM publisher pu 
+            INNER JOIN publication_publisher pp ON pu.publisher_id = pp.publisher_id
+            INNER JOIN publication p ON p.publication_id = pp.publication_id
+        WHERE pu.publisher_id IN
+            <foreach item="item" collection="list" open="(" close=")" separator=",">
+                #{item.publisherId}
+            </foreach>
+    </select>
+
+
     <select id="getByPublisherId" resultType="com.aniDB.aniDB_backend.entity.Publisher">
         SELECT * FROM publisher WHERE publisher_id = #{publisherId}
     </select>
@@ -40,4 +150,7 @@
     <delete id="delete">
         DELETE FROM publisher WHERE publisher_id = #{publisherId}
     </delete>
+
+
+
 </mapper>
