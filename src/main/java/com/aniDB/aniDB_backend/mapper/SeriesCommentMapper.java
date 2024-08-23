@@ -12,5 +12,7 @@ public interface SeriesCommentMapper {
     int insertSeriesComment(SeriesComment seriesComment);
     List<SeriesComment> selectSeriesCommentsByPublicationId(Long publicationId);
     int updateSeriesComment(SeriesComment seriesComment);
-    int deleteSeriesComment(@Param("publicationId") Long publicationId, @Param("memberId") Long memberId);
+    int deleteSeriesComment(Long seriesCommentId);
+
+    SeriesComment findById(Long seriesCommentId);
 }

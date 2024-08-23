@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class SeriesCommentDTO {
+    private Long seriesCommentId;
     private Long publicationId;
     private Long memberId;
     private MemberDTO memberDTO;

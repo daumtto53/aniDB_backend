@@ -4,18 +4,25 @@
 <mapper namespace="com.aniDB.aniDB_backend.mapper.SeriesCommentMapper">
 <!--    TODO -->
     <resultMap id="seriesCommentMap" type="com.aniDB.aniDB_backend.entity.SeriesComment">
-        <id property="publicationId" column="publication_id" />
-        <id property="memberId" column="member_id" />
+        <id property="seriesCommentId" column="series_comment_id" />
+        <result property="publicationId" column="publication_id" />
+        <result property="memberId" column="member_id" />
         <result property="anidbComment" column="anidb_comment" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
     </resultMap>
 
     <!-- Series Comment Operations -->
-    <insert id="insertSeriesComment" parameterType="com.aniDB.aniDB_backend.entity.SeriesComment">
+    <insert id="insertSeriesComment"  parameterType="com.aniDB.aniDB_backend.entity.SeriesComment"
+        useGeneratedKeys="true" keyColumn="series_comment_id" keyProperty="seriesCommentId"
+    >
         INSERT INTO series_comment (publication_id, member_id, anidb_comment)
         VALUES (#{publicationId}, #{memberId}, #{anidbComment})
     </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="seriesCommentMap">
+        SELECT * FROM series_comment WHERE series_comment_id = #{seriesCommentId}
+    </select>
 
     <select id="selectSeriesCommentsByPublicationId" parameterType="java.lang.Long" resultMap="seriesCommentMap">
         SELECT * FROM series_comment WHERE publication_id = #{publicationId}
@@ -23,11 +30,12 @@
 
     <update id="updateSeriesComment" parameterType="com.aniDB.aniDB_backend.entity.SeriesComment">
         UPDATE series_comment
-        SET anidb_comment = #{comment}
-        WHERE publication_id = #{publicationId} AND member_id = #{memberId}
+        SET anidb_comment = #{anidbComment}
+        WHERE series_comment_id = #{seriesCommentId}
     </update>
 
-    <delete id="deleteSeriesComment">
-        DELETE FROM series_comment WHERE publication_id = #{publicationId} AND member_id = #{memberId}
+    <delete id="deleteSeriesComment" parameterType="java.lang.Long">
+        DELETE FROM series_comment
+        WHERE series_comment_id = #{seriesCommentId}
     </delete>
 </mapper>

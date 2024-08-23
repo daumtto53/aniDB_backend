@@ -16,6 +16,10 @@ public class SeriesCommentRepository {
         return seriesCommentMapper.insertSeriesComment(seriesComment);
     }
 
+    public SeriesComment findById(Long seriesCommentId) {
+        return seriesCommentMapper.findById(seriesCommentId);
+    }
+
     public List<SeriesComment> selectSeriesCommentsByPublicationId(Long publicationId) {
         return seriesCommentMapper.selectSeriesCommentsByPublicationId(publicationId);
     }
@@ -24,7 +28,8 @@ public class SeriesCommentRepository {
         return seriesCommentMapper.updateSeriesComment(seriesComment);
     }
 
-    public int deleteSeriesComment(Long publicationId, Long memberId) {
-        return seriesCommentMapper.deleteSeriesComment(publicationId, memberId);
+    public int deleteSeriesComment(Long seriesCommentId) {
+        return seriesCommentMapper.deleteSeriesComment(seriesCommentId);
     }
+
 }

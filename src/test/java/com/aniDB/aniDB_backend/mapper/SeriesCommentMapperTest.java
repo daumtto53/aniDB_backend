@@ -35,9 +35,9 @@ class SeriesCommentMapperTest {
     @BeforeEach
     public void setup() {
         member = Member.builder()
-                .username("test")
-                .password("test")
-                .loginId("test")
+                .username("ttest")
+                .password("ttest")
+                .loginId("ttest")
                 .build();
         memberRepository.saveNecessary(member);
         publication = Publication.builder()
@@ -69,12 +69,21 @@ class SeriesCommentMapperTest {
 
     @Test
     void updateSeriesComment() {
+        //given
+        SeriesComment toChange = seriesCommentMapper.findById(seriesComment.getSeriesCommentId());
+        Assertions.assertThat(toChange.getAnidbComment()).isEqualTo("comment");
+        //when
+        toChange.setAnidbComment("comment2");
+        seriesCommentMapper.updateSeriesComment(toChange);
+        //then
+        SeriesComment result = seriesCommentMapper.findById(seriesComment.getSeriesCommentId());
+        Assertions.assertThat(result.getAnidbComment()).isEqualTo("comment2");
 
     }
 
     @Test
     void deleteSeriesComment() {
-        int cnt = seriesCommentMapper.deleteSeriesComment(seriesComment.getPublicationId(), seriesComment.getMemberId());
+        int cnt = seriesCommentMapper.deleteSeriesComment(seriesComment.getSeriesCommentId());
         Assertions.assertThat(cnt).isEqualTo(1);
     }
 }
