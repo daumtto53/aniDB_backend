@@ -91,14 +91,10 @@
     </insert>
 
     <update id="updateArticle" parameterType="com.aniDB.aniDB_backend.entity.Article">
-        UPDATE anidb_article SET
-        publication_id = #{publicationId},
-        anime_id = #{animeId},
+        UPDATE anidb_article
+        SET
         title = #{title},
-        content = #{content},
-        views = #{views},
-        series_id = #{seriesId},
-        upvotes = #{upvotes}
+        content = #{content}
         WHERE article_id = #{articleId}
     </update>
 

@@ -22,7 +22,7 @@ public class UpvotedArticleRepository {
     }
 
 
-    public int delete(Long memberId, Long articleId) {
-        return  upvotedArticleMapper.deleteUpvotedArticle(memberId, articleId);
+    public int delete(Long articleId) {
+        return  upvotedArticleMapper.deleteUpvotedArticleById(articleId);
     }
 }

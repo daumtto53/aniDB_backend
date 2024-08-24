@@ -90,18 +90,26 @@ class ArticleMapperTest {
     @Test
     @Order(1)
     void insertArticle() {
+
     }
 
     @Test
     void updateArticle() {
-        //TODo
+        article.setTitle("updated");
+        article.setContent("updated");
+        articleMapper.updateArticle(article);
+        Article updated = articleMapper.selectArticleById(article.getArticleId());
+        Assertions.assertThat(updated.getTitle()).isEqualTo("updated");
+        Assertions.assertThat(updated.getContent()).isEqualTo("updated");
     }
 
     @Test
     @Order(Integer.MAX_VALUE)
     void deleteArticleById() {
+        int cnt2 = upvotedArticleMapper.deleteUpvotedArticleById(article.getArticleId());
         int cnt = articleMapper.deleteArticleById(article.getArticleId());
         Assertions.assertThat(cnt).isEqualTo(1);
+        Assertions.assertThat(cnt2).isEqualTo(1);
     }
 
     @Test

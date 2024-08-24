@@ -31,4 +31,8 @@ class ArticleRepositoryTest {
         List<ArticleDTO> pages = articleRepository.getPages(new PageRequestDTO(1).getPageable());
         System.out.println(pages);
     }
+
+    @Test
+    void deleteById() {
+    }
 }
