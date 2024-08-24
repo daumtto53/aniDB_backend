@@ -11,5 +11,5 @@ public interface UpvotedCommentMapper {
 
     int insertUpvotedComment(UpvotedComment upvotedComment);
 
-    int deleteUpvotedComment(@Param("memberId") Long memberId, @Param("commentId") Long commentId);
+    int deleteUpvotedComment(@Param("commentId") Long commentId);
 }

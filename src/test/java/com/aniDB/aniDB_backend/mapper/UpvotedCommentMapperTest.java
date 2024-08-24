@@ -75,7 +75,7 @@ class UpvotedCommentMapperTest {
 
     @Test
     void deleteUpvotedComment() {
-        int cnt = upvotedCommentMapper.deleteUpvotedComment(upvotedComment.getMemberId(), upvotedComment.getCommentId());
+        int cnt = upvotedCommentMapper.deleteUpvotedComment(upvotedComment.getCommentId());
         Assertions.assertThat(cnt).isEqualTo(1);
     }
 }

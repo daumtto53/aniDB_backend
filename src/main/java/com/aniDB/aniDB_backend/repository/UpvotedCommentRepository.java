@@ -21,7 +21,7 @@ public class UpvotedCommentRepository {
         return upvotedCommentMapper.insertUpvotedComment(upvotedComment);
     }
 
-    public int delete(Long memberId, Long commentId) {
-        return upvotedCommentMapper.deleteUpvotedComment(memberId, commentId);
+    public int delete(Long commentId) {
+        return upvotedCommentMapper.deleteUpvotedComment(commentId);
     }
 }

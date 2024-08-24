@@ -12,6 +12,16 @@
         <result column="updated_at" property="updatedAt" />
     </resultMap>
 
+    <resultMap id="CommentDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO">
+        <id property="commentId" column="comment_id" />
+        <id property="memberId" column="member_id" />
+        <id property="articleId" column="article_id" />
+        <result property="content" column="content" />
+        <result property="upvotes" column="u_upvotes" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
     <select id="selectCommentById" parameterType="java.lang.Long" resultMap="CommentResultMap">
         SELECT * FROM anidb_comment WHERE comment_id = #{commentId}
     </select>
@@ -28,6 +38,14 @@
         VALUES (#{memberId}, #{articleId}, #{content}, #{upvotes})
     </insert>
 
+    <insert id="insertCommentDTO"
+            useGeneratedKeys="true" keyProperty="commentId" keyColumn="comment_id"
+            parameterType="com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO"
+    >
+        INSERT INTO anidb_comment (member_id, article_id, content)
+        VALUES (#{memberDTO.memberId}, #{articleId}, #{content})
+    </insert>
+
     <update id="updateComment" parameterType="com.aniDB.aniDB_backend.entity.Comment">
         UPDATE anidb_comment SET
         content = #{content},
@@ -35,7 +53,17 @@
         WHERE comment_id = #{commentId}
     </update>
 
+    <update id="updateCommentDTO" parameterType="com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO">
+        UPDATE anidb_comment SET
+         content = #{content}
+        WHERE comment_id = #{commentId}
+    </update>
+
     <delete id="deleteCommentById" parameterType="java.lang.Long">
         DELETE FROM anidb_comment WHERE comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteCommentByArticleId" parameterType="java.lang.Long">
+        DELETE FROM anidb_comment WHERE article_id = #{articleId}
     </delete>
 </mapper>

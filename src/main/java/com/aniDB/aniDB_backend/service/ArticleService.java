@@ -6,6 +6,7 @@ import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.entity.Article;
 import com.aniDB.aniDB_backend.repository.ArticleRepository;
+import com.aniDB.aniDB_backend.repository.CommentRepository;
 import com.aniDB.aniDB_backend.repository.UpvotedArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +24,7 @@ import java.util.function.Function;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UpvotedArticleRepository upvotedArticleRepository;
+    private final CommentRepository commentRepository;
 
     public PageResultDTO<ArticleDTO, ArticleDTO> getArticleDTOPage(int page, Long publicationId) {
         Pageable pageable = new PageRequestDTO(page).getPageable();
@@ -59,6 +61,7 @@ public class ArticleService {
 
     public void deleteArticle(Long articleId) {
         upvotedArticleRepository.delete(articleId);
+        commentRepository.deleteByArticleId(articleId);
         articleRepository.deleteById(articleId);
     }
 

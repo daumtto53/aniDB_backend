@@ -18,6 +18,6 @@
 
 
     <delete id="deleteUpvotedComment" parameterType="map">
-        DELETE FROM upvoted_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+        DELETE FROM upvoted_comment WHERE comment_id = #{commentId}
     </delete>
 </mapper>
