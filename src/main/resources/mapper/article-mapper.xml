@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.aniDB.aniDB_backend.mapper.ArticleMapper">
+
     <resultMap id="ArticleResultMap" type="com.aniDB.aniDB_backend.entity.Article">
         <id property="articleId" column="article_id" />
         <result property="memberId" column="member_id" />
@@ -17,6 +18,7 @@
 
     <resultMap id="ArticleDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO">
         <id property="articleId" column="article_id" />
+
         <result property="animeId" column="anime_id" />
         <result property="publicationId" column="publication_id" />
         <result property="title" column="title" />
@@ -25,12 +27,25 @@
         <result property="upvotes" column="u_upvotes" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
+
+
         <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
             <id property="memberId" column="m_member_id" />
             <result property="loginId" column="m_login_id" />
             <result property="name" column="m_member_name" />
             <result property="nickname" column="m_nickname" />
         </association>
+
+        <collection property="commentList" ofType="com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO">
+            <id property="commentId" column="comment_id" />
+            <result property="articleId" column="c_article_id" />
+            <result property="content" column="c_content" />
+            <result property="upvotes" column="c_upvotes" />
+            <result property="createdAt" column="c_created_at" />
+            <result property="updatedAt" column="c_updated_at" />
+            <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO"
+                         resultMap="com.aniDB.aniDB_backend.mapper.MemberMapper.MemberDTOResultMap" />
+        </collection>
     </resultMap>
 
     <select id="selectArticleById" parameterType="java.lang.Long" resultMap="ArticleResultMap">
@@ -75,9 +90,16 @@
                    FROM upvoted_article u
                    INNER JOIN anidb_article aa on u.article_id = aa.article_id
                    WHERE u.article_id = #{articleId}
-               ) as u_upvotes
+               ) as u_upvotes,
+               ac.comment_id as comment_id,
+               ac.article_id as c_article_id,
+               ac.content    as c_content,
+               ac.upvotes    as c_upvotes,
+               ac.created_at as c_created_at,
+               ac.updated_at as c_updated_at
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
+                LEFT JOIN anidb_comment ac on ac.article_id = a.article_id
         WHERE a.article_id = #{articleId}
     </select>
 

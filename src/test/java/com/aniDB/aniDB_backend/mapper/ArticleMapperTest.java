@@ -127,6 +127,12 @@ class ArticleMapperTest {
     }
 
     @Test
+    void getArticleDTO_3() {
+        ArticleDTO articleDTOById = articleMapper.getArticleDTOById(8L);
+        System.out.println(articleDTOById);
+    }
+
+    @Test
     void getPages() {
         Pageable pageable = new PageRequestDTO(1).getPageable();
         List<ArticleDTO> pages = articleMapper.getPages(pageable, 1L);

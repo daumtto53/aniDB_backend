@@ -1,10 +1,12 @@
 package com.aniDB.aniDB_backend.dto.entity.article;
 
 import com.aniDB.aniDB_backend.dto.entity.member.MemberDTO;
+import com.aniDB.aniDB_backend.entity.Comment;
 import com.aniDB.aniDB_backend.entity.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +27,6 @@ public class ArticleDTO {
     private Integer upvotes = 0;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private List<Comment> commentList;
 }
