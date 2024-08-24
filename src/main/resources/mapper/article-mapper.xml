@@ -101,6 +101,14 @@
             VALUES (#{memberId})
     </insert>
 
+    <insert id="insertArticleDTO"
+            useGeneratedKeys="true" keyColumn="article_id" keyProperty="articleId"
+            parameterType="map"
+    >
+        INSERT INTO anidb_article (member_id, publication_id, anime_id, title, content)
+        VALUES (#{memberDTO.memberId}, #{publicationId}, #{animeId}, #{title}, #{content})
+    </insert>
+
     <update id="updateArticle" parameterType="com.aniDB.aniDB_backend.entity.Article">
         UPDATE anidb_article
         SET

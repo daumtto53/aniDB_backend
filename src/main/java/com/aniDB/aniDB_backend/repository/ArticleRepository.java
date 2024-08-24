@@ -58,4 +58,8 @@ public class ArticleRepository {
         return articleMapper.countAllByPublicationId(publicationId);
     }
 
+    public int createArticle(ArticleDTO articleDTO) {
+        return articleMapper.insertArticleDTO(articleDTO);
+    }
+
 }

@@ -39,6 +39,8 @@ public interface ArticleMapper {
 
     int insertArticleNecessary(Article article);
 
+    int insertArticleDTO(ArticleDTO articleDTO);
+
     int updateArticle(Article article);
 
     int deleteArticleById(Long articleId);

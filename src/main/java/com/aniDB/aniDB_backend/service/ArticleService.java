@@ -1,8 +1,10 @@
 package com.aniDB.aniDB_backend.service;
 
 import com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO;
+import com.aniDB.aniDB_backend.dto.entity.member.MemberDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
+import com.aniDB.aniDB_backend.entity.Article;
 import com.aniDB.aniDB_backend.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,6 +31,18 @@ public class ArticleService {
         Function<ArticleDTO, ArticleDTO> fn = (en -> en);
         PageResultDTO<ArticleDTO, ArticleDTO> pageResult = new PageResultDTO<>(result, fn);
         return pageResult;
+    }
+
+    public ArticleDTO getArticle(Long articleId) {
+        return articleRepository.getArticleDTOById(articleId);
+    }
+
+     /* TODO Spring Context - member needed. */
+    public ArticleDTO createArticle(Long publicationId, ArticleDTO articleDTO) {
+        articleDTO.setPublicationId(publicationId);
+        articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
+        int affectedCount = articleRepository.createArticle(articleDTO);
+        return articleDTO;
     }
 
 }
