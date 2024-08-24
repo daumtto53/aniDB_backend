@@ -58,11 +58,19 @@ public class ArticleController {
         return ResponseEntity.ok(article);
     }
 
-//    /**
-//     * article 수정
-//     */
-//    @PutMapping("")
-//
+    /**
+     * article 수정
+     */
+    @PutMapping("/article/{id}/{articleId}")
+    public ResponseEntity modifyArticle(
+            @PathVariable("id") Long publicationId,
+            @PathVariable("articleId") Long articleId,
+            @RequestBody ArticleDTO articleDTO
+    ) {
+        ArticleDTO result = articleService.modifyArticle(articleId, articleDTO);
+        return ResponseEntity.ok(result);
+    }
+
 //    /**
 //     * article 삭제
 //     */

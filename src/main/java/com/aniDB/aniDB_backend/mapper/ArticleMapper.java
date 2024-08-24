@@ -43,6 +43,8 @@ public interface ArticleMapper {
 
     int updateArticle(Article article);
 
+    int updateArticleDTO(ArticleDTO articleDTO);
+
     int deleteArticleById(Long articleId);
 
     /**

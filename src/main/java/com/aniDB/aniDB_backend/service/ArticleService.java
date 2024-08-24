@@ -40,8 +40,18 @@ public class ArticleService {
      /* TODO Spring Context - member needed. */
     public ArticleDTO createArticle(Long publicationId, ArticleDTO articleDTO) {
         articleDTO.setPublicationId(publicationId);
+        // Securtiy Context.
         articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
         int affectedCount = articleRepository.createArticle(articleDTO);
+        return articleDTO;
+    }
+
+    /* TODO Spring Context - member needed. */
+    public ArticleDTO modifyArticle(Long articleId ,ArticleDTO articleDTO) {
+        articleDTO.setArticleId(articleId);
+        // Security Context.
+        articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
+        int affectedCount = articleRepository.modifyArticle(articleDTO);
         return articleDTO;
     }
 

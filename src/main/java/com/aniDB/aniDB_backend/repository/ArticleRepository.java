@@ -62,4 +62,8 @@ public class ArticleRepository {
         return articleMapper.insertArticleDTO(articleDTO);
     }
 
+    public int modifyArticle(ArticleDTO articleDTO) {
+        return articleMapper.updateArticleDTO(articleDTO);
+    }
+
 }

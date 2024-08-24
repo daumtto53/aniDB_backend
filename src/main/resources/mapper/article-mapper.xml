@@ -117,6 +117,14 @@
         WHERE article_id = #{articleId}
     </update>
 
+    <update id="updateArticleDTO" parameterType="com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO">
+        UPDATE anidb_article
+        SET
+            title = #{title},
+            content = #{content}
+        WHERE article_id = #{articleId}
+    </update>
+
     <delete id="deleteArticleById" parameterType="java.lang.Long">
         DELETE FROM anidb_article WHERE article_id = #{articleId}
     </delete>
