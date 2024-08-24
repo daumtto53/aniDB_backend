@@ -47,7 +47,7 @@ class CommentMapperTest {
                 .publicationId(1L)
                 .memberId(member.getMemberId())
                 .build();
-        articleRepository.save(article);
+        articleRepository.save(article, member.getMemberId());
         comment = Comment.builder()
                 .content("test")
                 .memberId(member.getMemberId())

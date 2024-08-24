@@ -64,7 +64,7 @@ class UpvotedArticleMapperTest {
 
     @Test
     void deleteUpvotedArticle() {
-        int cnt = upvotedArticleMapper.deleteUpvotedArticle(upvotedArticle.getMemberId(), upvotedArticle.getArticleId());
+        int cnt = upvotedArticleMapper.deleteUpvotedArticleById(upvotedArticle.getArticleId());
         Assertions.assertThat(cnt).isEqualTo(1);
 
     }

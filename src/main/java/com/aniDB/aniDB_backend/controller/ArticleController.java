@@ -71,9 +71,15 @@ public class ArticleController {
         return ResponseEntity.ok(result);
     }
 
-//    /**
-//     * article 삭제
-//     */
-//    @DeleteMapping("")
+    @DeleteMapping("/article/{id}/{articleId}")
+    public ResponseEntity deleteArticle(
+            @PathVariable("id") Long publicationId,
+            @PathVariable("articleId") Long articleId
+    ) {
+        articleService.deleteArticle(articleId);
+        return ResponseEntity.ok("deleted");
+    }
+
+
 
 }

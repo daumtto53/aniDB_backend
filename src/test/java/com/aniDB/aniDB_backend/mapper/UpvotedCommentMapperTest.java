@@ -49,7 +49,7 @@ class UpvotedCommentMapperTest {
                 .publicationId(1L)
                 .memberId(member.getMemberId())
                 .build();
-        articleRepository.save(article);
+        articleRepository.save(article, member.getMemberId());
         comment = Comment.builder()
                 .memberId(member.getMemberId())
                 .articleId(article.getArticleId())

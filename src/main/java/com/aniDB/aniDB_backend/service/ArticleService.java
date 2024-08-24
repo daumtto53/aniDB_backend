@@ -6,6 +6,7 @@ import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.entity.Article;
 import com.aniDB.aniDB_backend.repository.ArticleRepository;
+import com.aniDB.aniDB_backend.repository.UpvotedArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 @Log4j2
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final UpvotedArticleRepository upvotedArticleRepository;
 
     public PageResultDTO<ArticleDTO, ArticleDTO> getArticleDTOPage(int page, Long publicationId) {
         Pageable pageable = new PageRequestDTO(page).getPageable();
@@ -53,6 +55,11 @@ public class ArticleService {
         articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
         int affectedCount = articleRepository.modifyArticle(articleDTO);
         return articleDTO;
+    }
+
+    public void deleteArticle(Long articleId) {
+        upvotedArticleRepository.delete(articleId);
+        articleRepository.deleteById(articleId);
     }
 
 }
