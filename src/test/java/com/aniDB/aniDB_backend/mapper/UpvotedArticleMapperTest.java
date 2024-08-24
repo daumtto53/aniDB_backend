@@ -33,9 +33,9 @@ class UpvotedArticleMapperTest {
     @BeforeEach
     public void setup() {
         member = Member.builder()
-                .loginId("test")
-                .password("test")
-                .username("test")
+                .loginId("testmember")
+                .password("testmember")
+                .username("testmember")
                 .build();
         memberRepository.saveNecessary(member);
         article = Article.builder()
@@ -43,7 +43,7 @@ class UpvotedArticleMapperTest {
                 .title("test")
                 .content("test")
                 .build();
-        articleRepository.save(article);
+        articleRepository.save(article, member.getMemberId());
         upvotedArticle = UpvotedArticle.builder()
                 .articleId(article.getArticleId())
                 .memberId(member.getMemberId())
@@ -53,7 +53,7 @@ class UpvotedArticleMapperTest {
 
     @Test
     void selectUpvotedArticleById() {
-        UpvotedArticle test = upvotedArticleMapper.selectUpvotedArticleById(member.getMemberId(), article.getArticleId());
+        UpvotedArticle test = upvotedArticleMapper.selectUpvotedArticleById(article.getArticleId());
         Assertions.assertThat(test.getArticleId()).isEqualTo(article.getArticleId());
         Assertions.assertThat(test.getMemberId()).isEqualTo(article.getMemberId());
     }

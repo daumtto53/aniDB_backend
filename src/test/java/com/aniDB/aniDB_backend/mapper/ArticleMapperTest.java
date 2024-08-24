@@ -1,12 +1,16 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO;
+import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.entity.Article;
 import com.aniDB.aniDB_backend.entity.Member;
+import com.aniDB.aniDB_backend.entity.UpvotedArticle;
 import com.aniDB.aniDB_backend.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +26,20 @@ class ArticleMapperTest {
     ArticleMapper articleMapper;
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    UpvotedArticleMapper upvotedArticleMapper;
 
     Article article;
     Member member;
+    UpvotedArticle upvotedArticle;
+
 
     @BeforeEach
     public void setup() {
         member = Member.builder()
-                .username("test")
-                .password("test")
-                .loginId("test")
+                .username("membertest")
+                .password("membertest")
+                .loginId("membertest")
                 .build();
         memberRepository.save(member);
         article = Article.builder()
@@ -40,7 +48,12 @@ class ArticleMapperTest {
                 .publicationId(1L)
                 .memberId(member.getMemberId())
                 .build();
-        articleMapper.insertArticle(article);
+        articleMapper.insertArticle(article, member.getMemberId());
+        upvotedArticle = UpvotedArticle.builder()
+                .articleId(article.getArticleId())
+                .memberId(member.getMemberId())
+                .build();
+        upvotedArticleMapper.insertUpvotedArticle(upvotedArticle);
     }
 
     @Test
@@ -89,5 +102,26 @@ class ArticleMapperTest {
     void deleteArticleById() {
         int cnt = articleMapper.deleteArticleById(article.getArticleId());
         Assertions.assertThat(cnt).isEqualTo(1);
+    }
+
+    @Test
+    void getArticleDTO() {
+        ArticleDTO articleDTO = articleMapper.getArticleDTOById(article.getArticleId());
+        Assertions.assertThat(articleDTO.getMemberDTO().getMemberId()).isEqualTo(member.getMemberId());
+        Assertions.assertThat(articleDTO.getArticleId()).isEqualTo(article.getArticleId());
+        System.out.println(articleDTO);
+    }
+
+    @Test
+    void getArticleDTO_2() {
+        ArticleDTO articleDTOById = articleMapper.getArticleDTOById(1L);
+        System.out.println(articleDTOById);
+    }
+
+    @Test
+    void getPages() {
+        Pageable pageable = new PageRequestDTO(1).getPageable();
+        List<ArticleDTO> pages = articleMapper.getPages(pageable);
+        System.out.println(pages);
     }
 }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UpvotedArticleMapper {
 
-    UpvotedArticle selectUpvotedArticleById(@Param("memberId") Long memberId, @Param("articleId") Long articleId);
+    UpvotedArticle selectUpvotedArticleById(@Param("articleId") Long articleId);
 
     int insertUpvotedArticle(UpvotedArticle upvotedArticle);
 

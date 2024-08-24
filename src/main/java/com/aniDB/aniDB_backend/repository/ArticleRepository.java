@@ -21,8 +21,8 @@ public class ArticleRepository {
         return articleMapper.selectAllArticles();
     }
 
-    public void save(Article article) {
-        articleMapper.insertArticle(article);
+    public void save(Article article, Long memberId) {
+        articleMapper.insertArticle(article, memberId);
     }
 
     public void update(Article article) {

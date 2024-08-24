@@ -13,8 +13,8 @@ public class UpvotedArticleRepository {
         this.upvotedArticleMapper = upvotedArticleMapper;
     }
 
-    public UpvotedArticle findById(Long memberId, Long articleId) {
-        return upvotedArticleMapper.selectUpvotedArticleById(memberId, articleId);
+    public UpvotedArticle findById(Long articleId) {
+        return upvotedArticleMapper.selectUpvotedArticleById(articleId);
     }
 
     public int save(UpvotedArticle upvotedArticle) {

@@ -4,7 +4,7 @@
 <mapper namespace="com.aniDB.aniDB_backend.mapper.ArticleMapper">
     <resultMap id="ArticleResultMap" type="com.aniDB.aniDB_backend.entity.Article">
         <id property="articleId" column="article_id" />
-        <id property="memberId" column="member_id" />
+        <result property="memberId" column="member_id" />
         <result property="animeId" column="anime_id" />
         <result property="publicationId" column="publication_id" />
         <result property="title" column="title" />
@@ -13,6 +13,24 @@
         <result property="upvotes" column="upvotes" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <resultMap id="ArticleDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO">
+        <id property="articleId" column="article_id" />
+        <result property="animeId" column="anime_id" />
+        <result property="publicationId" column="publication_id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="views" column="views" />
+        <result property="upvotes" column="u_upvotes" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+        <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
+            <id property="memberId" column="m_member_id" />
+            <result property="loginId" column="m_login_id" />
+            <result property="name" column="m_member_name" />
+            <result property="nickname" column="m_nickname" />
+        </association>
     </resultMap>
 
     <select id="selectArticleById" parameterType="java.lang.Long" resultMap="ArticleResultMap">
@@ -33,22 +51,40 @@
                  INNER JOIN publication p ON a.publication_id = p.publication_id
         WHERE p.title = #{title}
     </select>
+    
+    <select id="getArticleDTOById" parameterType="java.lang.Long" resultMap="ArticleDTOResultMap">
+        SELECT a.*,
+               m.member_id   as m_member_id,
+               m.member_id   as m_member_id,
+               m.loginid     as m_login_id,
+               m.member_name as m_member_name,
+               m.nickname    as m_nickname,
+               (
+                   SELECt count(*)
+                   FROM upvoted_article u
+                   INNER JOIN anidb_article aa on u.article_id = aa.article_id
+                   WHERE u.article_id = #{articleId}
+               ) as u_upvotes
+        FROM anidb_article a
+                 INNER JOIN anidb_member m on m.member_id = a.member_id
+        WHERE a.article_id = #{articleId}
+    </select>
 
     <select id="selectAllArticles" resultMap="ArticleResultMap">
         SELECT * FROM anidb_article
     </select>
 
     <insert id="insertArticle"
-            useGeneratedKeys="true" keyColumn="article_id" keyProperty="articleId"
-            parameterType="com.aniDB.aniDB_backend.entity.Article"
+            useGeneratedKeys="true" keyColumn="article_id" keyProperty="article.articleId"
+            parameterType="map"
     >
         INSERT INTO anidb_article (member_id, publication_id, anime_id, title, content, views, upvotes)
-        VALUES (#{memberId}, #{publicationId}, #{animeId}, #{title}, #{content}, #{views}, #{upvotes})
+        VALUES (#{memberId}, #{article.publicationId}, #{article.animeId}, #{article.title}, #{article.content}, #{article.views}, #{article.upvotes})
     </insert>
 
     <insert id="insertArticleNecessary"
-            useGeneratedKeys="true" keyColumn="article_id" keyProperty="articleId"
-            parameterType="com.aniDB.aniDB_backend.entity.Article"
+            useGeneratedKeys="true" keyColumn="article_id" keyProperty="article.articleId"
+            parameterType="map"
         >
         INSERT INTO anidb_article (member_id)
             VALUES (#{memberId})
@@ -69,4 +105,20 @@
     <delete id="deleteArticleById" parameterType="java.lang.Long">
         DELETE FROM anidb_article WHERE article_id = #{articleId}
     </delete>
+
+    <select id="getPages" parameterType="org.springframework.data.domain.Pageable" resultMap="ArticleDTOResultMap">
+        SELECT a.*,
+               m.member_id   as m_member_id,
+               m.member_id   as m_member_id,
+               m.loginid     as m_login_id,
+               m.member_name as m_member_name,
+               m.nickname    as m_nickname,
+               count(u.member_id) as u_upvotes
+        FROM anidb_article a
+                 INNER JOIN anidb_member m on m.member_id = a.member_id
+                 LEFT join upvoted_article u on u.article_id = a.article_id
+        group by a.article_id
+        LIMIT #{pageSize}
+        OFFSET #{pageNumber}
+    </select>
 </mapper>

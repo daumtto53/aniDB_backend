@@ -9,8 +9,12 @@
         <result column="updated_at" property="updatedAt" />
     </resultMap>
 
-    <select id="selectUpvotedArticleById" parameterType="map" resultMap="UpvotedArticleResultMap">
-        SELECT * FROM upvoted_article WHERE member_id = #{memberId} AND article_id = #{articleId}
+    <select id="selectUpvotedArticleById" parameterType="java.lang.Long" resultMap="UpvotedArticleResultMap">
+        SELECT * FROM upvoted_article WHERE article_id = #{articleId}
+    </select>
+
+    <select id="countById" parameterType="java.lang.Long" resultType="int" >
+        SELECT * FROM upvoted_article WHERE article_id = #{articleId}
     </select>
 
     <insert id="insertUpvotedArticle">
