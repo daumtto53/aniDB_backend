@@ -4,60 +4,70 @@
 <mapper namespace="com.aniDB.aniDB_backend.mapper.ArticleMapper">
 
     <resultMap id="ArticleResultMap" type="com.aniDB.aniDB_backend.entity.Article">
-        <id property="articleId" column="article_id" />
-        <result property="memberId" column="member_id" />
-        <result property="animeId" column="anime_id" />
-        <result property="publicationId" column="publication_id" />
-        <result property="title" column="title" />
-        <result property="content" column="content" />
-        <result property="views" column="views" />
-        <result property="upvotes" column="upvotes" />
-        <result property="createdAt" column="created_at" />
-        <result property="updatedAt" column="updated_at" />
+        <id property="articleId" column="article_id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="animeId" column="anime_id"/>
+        <result property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="views" column="views"/>
+        <result property="upvotes" column="upvotes"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
     <resultMap id="ArticleDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO">
-        <id property="articleId" column="article_id" />
+        <id property="articleId" column="article_id"/>
 
-        <result property="animeId" column="anime_id" />
-        <result property="publicationId" column="publication_id" />
-        <result property="title" column="title" />
-        <result property="content" column="content" />
-        <result property="views" column="views" />
-        <result property="upvotes" column="u_upvotes" />
-        <result property="createdAt" column="created_at" />
-        <result property="updatedAt" column="updated_at" />
+        <result property="animeId" column="anime_id"/>
+        <result property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="views" column="views"/>
+        <result property="upvotes" column="u_upvotes"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
 
 
         <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
-            <id property="memberId" column="m_member_id" />
-            <result property="loginId" column="m_login_id" />
-            <result property="name" column="m_member_name" />
-            <result property="nickname" column="m_nickname" />
+            <id property="memberId" column="m_member_id"/>
+            <result property="loginId" column="m_login_id"/>
+            <result property="name" column="m_member_name"/>
+            <result property="nickname" column="m_nickname"/>
         </association>
 
         <collection property="commentList" ofType="com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO">
-            <id property="commentId" column="comment_id" />
-            <result property="articleId" column="c_article_id" />
-            <result property="content" column="c_content" />
-            <result property="upvotes" column="c_upvotes" />
-            <result property="createdAt" column="c_created_at" />
-            <result property="updatedAt" column="c_updated_at" />
-            <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO"
-                         resultMap="com.aniDB.aniDB_backend.mapper.MemberMapper.MemberDTOResultMap" />
+            <id property="commentId" column="comment_id"/>
+            <result property="articleId" column="c_article_id"/>
+            <result property="content" column="c_content"/>
+            <result property="upvotes" column="c_upvotes"/>
+            <result property="createdAt" column="c_created_at"/>
+            <result property="updatedAt" column="c_updated_at"/>
+            <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
+                <id property="memberId" column="acm_member_id"/>
+                <result property="loginId" column="acm_login_id"/>
+                <result property="name" column="acm_name"/>
+                <result property="nickname" column="acm_nickname"/>
+            </association>
         </collection>
     </resultMap>
 
     <select id="selectArticleById" parameterType="java.lang.Long" resultMap="ArticleResultMap">
-        SELECT * FROM anidb_article WHERE article_id = #{articleId}
+        SELECT *
+        FROM anidb_article
+        WHERE article_id = #{articleId}
     </select>
 
     <select id="selectArticlesByMemberId" parameterType="java.lang.Long" resultMap="ArticleResultMap">
-        SELECT * FROM anidb_article WHERE member_id= #{memberId}
+        SELECT *
+        FROM anidb_article
+        WHERE member_id = #{memberId}
     </select>
 
     <select id="selectArticlesByPublicationId" parameterType="java.lang.Long" resultMap="ArticleResultMap">
-        SELECT * FROM anidb_article WHERE publication_id = #{publicationId}
+        SELECT *
+        FROM anidb_article
+        WHERE publication_id = #{publicationId}
     </select>
 
     <select id="selectArticlesByPublicationName" parameterType="java.lang.String" resultMap="ArticleResultMap">
@@ -77,34 +87,40 @@
         FROM anidb_article
         WHERE publication_id = #{publicationId}
     </select>
-    
+
     <select id="getArticleDTOById" parameterType="java.lang.Long" resultMap="ArticleDTOResultMap">
         SELECT a.*,
-               m.member_id   as m_member_id,
-               m.member_id   as m_member_id,
-               m.loginid     as m_login_id,
-               m.member_name as m_member_name,
-               m.nickname    as m_nickname,
-               (
-                   SELECt count(*)
-                   FROM upvoted_article u
-                   INNER JOIN anidb_article aa on u.article_id = aa.article_id
-                   WHERE u.article_id = #{articleId}
-               ) as u_upvotes,
-               ac.comment_id as comment_id,
-               ac.article_id as c_article_id,
-               ac.content    as c_content,
-               ac.upvotes    as c_upvotes,
-               ac.created_at as c_created_at,
-               ac.updated_at as c_updated_at
+               m.member_id                         as m_member_id,
+               m.member_id                         as m_member_id,
+               m.loginid                           as m_login_id,
+               m.member_name                       as m_member_name,
+               m.nickname                          as m_nickname,
+               (SELECt count(*)
+                FROM upvoted_article u
+                         INNER JOIN anidb_article aa on u.article_id = aa.article_id
+                WHERE u.article_id = #{articleId}) as u_upvotes,
+               ac.comment_id                       as comment_id,
+               ac.article_id                       as c_article_id,
+               ac.content                          as c_content,
+               ac.created_at                       as c_created_at,
+               ac.updated_at                       as c_updated_at,
+               count(uc.comment_id)                as c_upvotes,
+               acm.member_id as acm_member_id,
+               acm.loginid as acm_login_id,
+               acm.member_name as acm_name,
+               acm.nickname as acm_nickname
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
-                LEFT JOIN anidb_comment ac on ac.article_id = a.article_id
+                 LEFT JOIN anidb_comment ac on ac.article_id = a.article_id
+                 left join upvoted_comment uc on uc.comment_id = ac.comment_id
+                    left JOIN anidb_member acm on acm.member_id = ac.member_id
         WHERE a.article_id = #{articleId}
+        group by ac.comment_id;
     </select>
 
     <select id="selectAllArticles" resultMap="ArticleResultMap">
-        SELECT * FROM anidb_article
+        SELECT *
+        FROM anidb_article
     </select>
 
     <insert id="insertArticle"
@@ -112,15 +128,16 @@
             parameterType="map"
     >
         INSERT INTO anidb_article (member_id, publication_id, anime_id, title, content, views, upvotes)
-        VALUES (#{memberId}, #{article.publicationId}, #{article.animeId}, #{article.title}, #{article.content}, #{article.views}, #{article.upvotes})
+        VALUES (#{memberId}, #{article.publicationId}, #{article.animeId}, #{article.title}, #{article.content},
+                #{article.views}, #{article.upvotes})
     </insert>
 
     <insert id="insertArticleNecessary"
             useGeneratedKeys="true" keyColumn="article_id" keyProperty="article.articleId"
             parameterType="map"
-        >
+    >
         INSERT INTO anidb_article (member_id)
-            VALUES (#{memberId})
+        VALUES (#{memberId})
     </insert>
 
     <insert id="insertArticleDTO"
@@ -133,38 +150,38 @@
 
     <update id="updateArticle" parameterType="com.aniDB.aniDB_backend.entity.Article">
         UPDATE anidb_article
-        SET
-        title = #{title},
-        content = #{content}
+        SET title   = #{title},
+            content = #{content}
         WHERE article_id = #{articleId}
     </update>
 
     <update id="updateArticleDTO" parameterType="com.aniDB.aniDB_backend.dto.entity.article.ArticleDTO">
         UPDATE anidb_article
-        SET
-            title = #{title},
+        SET title   = #{title},
             content = #{content}
         WHERE article_id = #{articleId}
     </update>
 
     <delete id="deleteArticleById" parameterType="java.lang.Long">
-        DELETE FROM anidb_article WHERE article_id = #{articleId}
+        DELETE
+        FROM anidb_article
+        WHERE article_id = #{articleId}
     </delete>
 
     <select id="getPages" parameterType="map" resultMap="ArticleDTOResultMap">
         SELECT a.*,
-               m.member_id   as m_member_id,
-               m.member_id   as m_member_id,
-               m.loginid     as m_login_id,
-               m.member_name as m_member_name,
-               m.nickname    as m_nickname,
+               m.member_id        as m_member_id,
+               m.member_id        as m_member_id,
+               m.loginid          as m_login_id,
+               m.member_name      as m_member_name,
+               m.nickname         as m_nickname,
                count(u.member_id) as u_upvotes
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
                  LEFT join upvoted_article u on u.article_id = a.article_id
         WHERE a.publication_id = #{publicationId}
         group by a.article_id
-        LIMIT #{pageable.pageSize}
+            LIMIT #{pageable.pageSize}
         OFFSET #{pageable.pageNumber}
     </select>
 </mapper>
