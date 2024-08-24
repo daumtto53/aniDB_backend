@@ -51,6 +51,17 @@
                  INNER JOIN publication p ON a.publication_id = p.publication_id
         WHERE p.title = #{title}
     </select>
+
+    <select id="countAll">
+        select count(*)
+        FROM anidb_article
+    </select>
+
+    <select id="countAllByPublicationId" parameterType="java.lang.Long">
+        SELECT count(*)
+        FROM anidb_article
+        WHERE publication_id = #{publicationId}
+    </select>
     
     <select id="getArticleDTOById" parameterType="java.lang.Long" resultMap="ArticleDTOResultMap">
         SELECT a.*,
@@ -102,7 +113,7 @@
         DELETE FROM anidb_article WHERE article_id = #{articleId}
     </delete>
 
-    <select id="getPages" parameterType="org.springframework.data.domain.Pageable" resultMap="ArticleDTOResultMap">
+    <select id="getPages" parameterType="map" resultMap="ArticleDTOResultMap">
         SELECT a.*,
                m.member_id   as m_member_id,
                m.member_id   as m_member_id,
@@ -113,8 +124,9 @@
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
                  LEFT join upvoted_article u on u.article_id = a.article_id
+        WHERE a.publication_id = #{publicationId}
         group by a.article_id
-        LIMIT #{pageSize}
-        OFFSET #{pageNumber}
+        LIMIT #{pageable.pageSize}
+        OFFSET #{pageable.pageNumber}
     </select>
 </mapper>

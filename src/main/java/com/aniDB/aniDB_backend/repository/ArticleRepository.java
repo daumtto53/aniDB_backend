@@ -45,7 +45,17 @@ public class ArticleRepository {
         articleMapper.deleteArticleById(articleId);
     }
 
-    public List<ArticleDTO> getPages(Pageable pageable) {
-        return articleMapper.getPages(pageable);
+    public List<ArticleDTO> getPages(Pageable pageable, Long publicationId) {
+        return articleMapper.getPages(pageable, publicationId);
     }
+
+
+    public int countAll() {
+        return articleMapper.countAll();
+    }
+
+    public int countAllByPublicationId(Long publicationId) {
+        return articleMapper.countAllByPublicationId(publicationId);
+    }
+
 }

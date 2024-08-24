@@ -28,7 +28,7 @@ class ArticleRepositoryTest {
 
     @Test
     void getPages() {
-        List<ArticleDTO> pages = articleRepository.getPages(new PageRequestDTO(1).getPageable());
+        List<ArticleDTO> pages = articleRepository.getPages(new PageRequestDTO(1).getPageable(), 1L);
         System.out.println(pages);
     }
 

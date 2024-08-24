@@ -129,7 +129,17 @@ class ArticleMapperTest {
     @Test
     void getPages() {
         Pageable pageable = new PageRequestDTO(1).getPageable();
-        List<ArticleDTO> pages = articleMapper.getPages(pageable);
+        List<ArticleDTO> pages = articleMapper.getPages(pageable, 1L);
         System.out.println(pages);
+    }
+
+    @Test
+    void countAll() {
+        System.out.println(articleMapper.countAll());
+    }
+
+    @Test
+    void countAllByPublicationId() {
+        System.out.println(articleMapper.countAllByPublicationId(1L));
     }
 }

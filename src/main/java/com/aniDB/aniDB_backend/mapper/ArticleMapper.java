@@ -21,6 +21,9 @@ public interface ArticleMapper {
 
     List<Article> selectAllArticles();
 
+    int countAll();
+    int countAllByPublicationId(Long publicationId);
+
 
     /**
      * ArticleDTO : Article 세부 페이지 반환용.
@@ -45,5 +48,5 @@ public interface ArticleMapper {
      * @param pageable
      * @return
      */
-    List<ArticleDTO> getPages(Pageable pageable);
+    List<ArticleDTO> getPages(Pageable pageable, Long publicationId);
 }
