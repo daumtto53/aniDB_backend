@@ -74,7 +74,7 @@
         FROM publisher
         ORDER BY publisher_name ASC
         LIMIT #{pageSize}
-        OFFSET #{pageNumber}
+        OFFSET #{offset}
     </select>
 
 <!--    하위 레이블의 publication Count 는 따로 가져올 것..-->

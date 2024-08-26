@@ -3,22 +3,22 @@
 
 <mapper namespace="com.aniDB.aniDB_backend.mapper.PublicationMapper">
     <resultMap id="publicationResultMap" type="com.aniDB.aniDB_backend.entity.Publication">
-        <id property="publicationId" column="publication_id" />
-        <result property="title" column="title" />
-        <result property="description" column="description" />
-        <result property="seriesType" column="series_type" />
-        <result property="volumesInOriginCountry" column="volumes_in_origin_country" />
-        <result property="statusInOriginCountry" column="status_in_origin_country" />
-        <result property="publishedDate" column="published_date" />
-        <result property="licensed" column="licensed" />
-        <result property="ranked" column="ranked" />
-        <result property="scores" column="scores" />
-        <result property="coverImageUrl" column="cover_image_url" />
-        <result property="createdAt" column="created_at" />
-        <result property="updatedAt" column="updated_at" />
+        <id property="publicationId" column="publication_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="seriesType" column="series_type"/>
+        <result property="volumesInOriginCountry" column="volumes_in_origin_country"/>
+        <result property="statusInOriginCountry" column="status_in_origin_country"/>
+        <result property="publishedDate" column="published_date"/>
+        <result property="licensed" column="licensed"/>
+        <result property="ranked" column="ranked"/>
+        <result property="scores" column="scores"/>
+        <result property="coverImageUrl" column="cover_image_url"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
-<!--           FOR PUBLICATION INFO RETRIEVAL             -->
+    <!--           FOR PUBLICATION INFO RETRIEVAL             -->
     <resultMap id="publicationDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO">
         <id property="publicationId" column="publication_id"/>
         <result property="title" column="title"/>
@@ -37,52 +37,56 @@
         <result property="upvotes" column="upvotes"/>
 
         <!-- Mapping nested collections -->
-        <collection property="alternativeTitleList" ofType="com.aniDB.aniDB_backend.dto.entity.alternative_title.AlternativeTitleDTO">
+        <collection property="alternativeTitleList"
+                    ofType="com.aniDB.aniDB_backend.dto.entity.alternative_title.AlternativeTitleDTO">
             <result property="alternativeTitle" column="at_alternative_title"/>
             <result property="language" column="at_language"/>
         </collection>
 
-        <collection property="relatedSeriesList" ofType="com.aniDB.aniDB_backend.dto.entity.related_series.RelatedSeriesDTO">
+        <collection property="relatedSeriesList"
+                    ofType="com.aniDB.aniDB_backend.dto.entity.related_series.RelatedSeriesDTO">
             <result property="title" column="rs_title"/>
             <result property="relation" column="rs_relation"/>
         </collection>
 
-        <collection property="animeAdaptationList" ofType="com.aniDB.aniDB_backend.dto.entity.anime_adaptation.AnimeAdaptationDTO">
-            <result property="animeId" column="aa_anime_id" />
-            <result property="animeType" column="aa_anime_type" />
-            <result property="animeName" column="aa_anime_name" />
-            <result property="publicationStart" column="aa_publication_start" />
+        <collection property="animeAdaptationList"
+                    ofType="com.aniDB.aniDB_backend.dto.entity.anime_adaptation.AnimeAdaptationDTO">
+            <result property="animeId" column="aa_anime_id"/>
+            <result property="animeType" column="aa_anime_type"/>
+            <result property="animeName" column="aa_anime_name"/>
+            <result property="publicationStart" column="aa_publication_start"/>
             <result property="publicationEnd" column="aa_publication_end"/>
-            <result property="animeStart" column="aa_anime_start" />
+            <result property="animeStart" column="aa_anime_start"/>
             <result property="animeEnd" column="aa_anime_end"/>
         </collection>
 
         <collection property="genreList" ofType="java.lang.String">
-            <result property="genreName" column="g_genre_name" />
+            <result property="genreName" column="g_genre_name"/>
         </collection>
 
         <collection property="publisherList" ofType="java.lang.String">
-            <result property="publisherName" column="pU_publisher_name" />
+            <result property="publisherName" column="pU_publisher_name"/>
         </collection>
 
-        <collection property="seriesCommentList" ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
-            <id property="seriesCommentId" column="series_comment_id" />
-            <result property="publicationId" column="publication_id" />
+        <collection property="seriesCommentList"
+                    ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
+            <id property="seriesCommentId" column="series_comment_id"/>
+            <result property="publicationId" column="publication_id"/>
             <result property="memberId" column="m_member_id"/>
             <result property="anidbComment" column="sc_anidb_comment"/>
             <result property="createdAt" column="sc_created_at"/>
             <result property="updatedAt" column="sc_updated_at"/>
             <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
-                <id property="memberId" column="m_member_id" />
-                <result property="loginId" column="m_login_id" />
-                <result property="name" column="m_member_name" />
-                <result property="nickname" column="m_nickname" />
+                <id property="memberId" column="m_member_id"/>
+                <result property="loginId" column="m_login_id"/>
+                <result property="name" column="m_member_name"/>
+                <result property="nickname" column="m_nickname"/>
             </association>
         </collection>
     </resultMap>
-<!--           FOR PUBLICATION INFO RETRIEVAL             -->
+    <!--           FOR PUBLICATION INFO RETRIEVAL             -->
 
-<!--    FOR PUBLICATION PEEK PAGE-->
+    <!--    FOR PUBLICATION PEEK PAGE-->
     <resultMap id="PublicationPageDTOMap" type="com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO">
         <id property="publicationId" column="publication_id"/>
         <result property="title" column="title"/>
@@ -93,18 +97,19 @@
         <result property="seriesType" column="st_type_name"/>
         <result property="upvotes" column="upvotes"/>
     </resultMap>
-<!--    FOR PUBLICATION PEEK PAGE-->
+    <!--    FOR PUBLICATION PEEK PAGE-->
 
 
-<!--            FOR Publication + SeriesCommentMapping -->
+    <!--            FOR Publication + SeriesCommentMapping -->
     <resultMap id="SeriesCommentDTOMap" type="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
-        <id property="publicationId" column="publication_id" />
-        <id property="memberId"  column="member_id" />
-        <result property="anidbComment" column="anidb_comment" />
-        <result property="createdAt" column="created_at" />
-        <result property="updatedAt" column="updated_at" />
-        <association property="memberDTO" column="member_id" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO"
-                     select="com.aniDB.aniDB_backend.mapper.MemberMapper.selectMemberById" >
+        <id property="publicationId" column="publication_id"/>
+        <id property="memberId" column="member_id"/>
+        <result property="anidbComment" column="anidb_comment"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <association property="memberDTO" column="member_id"
+                     javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO"
+                     select="com.aniDB.aniDB_backend.mapper.MemberMapper.selectMemberById">
         </association>
     </resultMap>
 
@@ -124,22 +129,16 @@
         <result property="seriesType" column="series_type"/>
 
         <!-- One-to-Many relationship -->
-        <collection property="seriesCommentList" ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO"
+        <collection property="seriesCommentList"
+                    ofType="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO"
                     resultMap="SeriesCommentDTOMap"/>
     </resultMap>
 
 
-
-
-
-
-
-
-
-
-
     <select id="selectPublicationById" parameterType="java.lang.Long" resultMap="publicationResultMap">
-        SELECT * FROM publication WHERE publication_id = #{publicationId}
+        SELECT *
+        FROM publication
+        WHERE publication_id = #{publicationId}
     </select>
 
     <select id="selectPublicationByTitle" resultMap="publicationResultMap" parameterType="java.lang.String">
@@ -149,19 +148,24 @@
     </select>
 
     <select id="selectPublicationByTitleAndSeriesType" parameterType="map" resultMap="publicationResultMap">
-        SELECT * FROM publication
-            WHERE title = #{title} and
-                series_type = (SELECT type_id
-                               FROM series_type
-                               WHERE type_name like #{typeName})
+        SELECT *
+        FROM publication
+        WHERE title = #{title}
+          and series_type = (SELECT type_id
+                             FROM series_type
+                             WHERE type_name like #{typeName})
     </select>
 
     <!--            FOR Publiation + SeriesCommentMapping -->
     <select id="selectPublicationWithComments" parameterType="java.lang.Long" resultMap="PublicationDTOMap">
-       SELECT p.*,
-           sc.publication_id, sc.member_id, sc.anidb_comment, sc.created_at, sc.updated_at
-            FROM publication p
-        LEFT JOIN  series_comment sc ON p.publication_id = sc.publication_id
+        SELECT p.*,
+               sc.publication_id,
+               sc.member_id,
+               sc.anidb_comment,
+               sc.created_at,
+               sc.updated_at
+        FROM publication p
+                 LEFT JOIN series_comment sc ON p.publication_id = sc.publication_id
         WHERE p.publication_id = #{publicationId}
 
     </select>
@@ -169,60 +173,116 @@
 
 
     <select id="selectAllPublications" resultMap="publicationResultMap">
-        SELECT * FROM publication
+        SELECT *
+        FROM publication
     </select>
 
 
     <select id="getPublicationDTOById" parameterType="java.lang.Long" resultMap="publicationDTOResultMap">
-        SELECT
-            p.*,
-            at.alternative_title as at_alternative_title,
-            at.title_language as at_language,
-            rs.title as rs_title,
-            rs.relation as rs_relation,
-            aa.anime_id as aa_animeId,
-            aa.anime_type as aa_anime_type,
-            aa.anime_name as aa_anime_name,
-            aa.publication_start as aa_publication_start,
-            aa.publication_end as aa_publication_end,
-            aa.anime_start as aa_anime_start,
-            aa.anime_end as aa_anime_end,
-            sc.publication_id as sc_publication_id,
-            sc.member_id as sc_member_id,
-            sc.anidb_comment as sc_anidb_comment,
-            sc.created_at as sc_created_at,
-            sc.updated_at as sc_updated_at,
-            m.member_id as m_member_id,
-            m.loginid as m_login_id,
-            m.member_name as m_member_name,
-            g.genre_name as g_genre_name,
-            m.nickname as m_nickname,
-            st.type_name as st_type_name,
-            pu.publisher_name as pu_publisher_name,
-            (
-              SELECT count(*) as upvotes
+        SELECT p.*,
+               at.alternative_title as at_alternative_title,
+               at.title_language    as at_language,
+               rs.title             as rs_title,
+               rs.relation          as rs_relation,
+               aa.anime_id          as aa_animeId,
+               aa.anime_type        as aa_anime_type,
+               aa.anime_name        as aa_anime_name,
+               aa.publication_start as aa_publication_start,
+               aa.publication_end   as aa_publication_end,
+               aa.anime_start       as aa_anime_start,
+               aa.anime_end         as aa_anime_end,
+               sc.publication_id    as sc_publication_id,
+               sc.member_id         as sc_member_id,
+               sc.anidb_comment     as sc_anidb_comment,
+               sc.created_at        as sc_created_at,
+               sc.updated_at        as sc_updated_at,
+               m.member_id          as m_member_id,
+               m.loginid            as m_login_id,
+               m.member_name        as m_member_name,
+               g.genre_name         as g_genre_name,
+               m.nickname           as m_nickname,
+               st.type_name         as st_type_name,
+               pu.publisher_name    as pu_publisher_name,
+               (SELECT count(*) as upvotes
                 FROM upvoted_publication u
-                WHERE u.publication_id = p.publication_id
-            )
+                WHERE u.publication_id = p.publication_id)
 
         FROM publication p
-            LEFT JOIN alternative_title as at ON p.publication_id = at.publication_id
+                 LEFT JOIN alternative_title as at
+        ON p.publication_id = at.publication_id
             LEFT JOIN related_series as rs ON p.publication_id = rs.publication_id
             LEFT JOIN anime_adaptation as aa ON p.publication_id = aa.publication_id
             LEFT JOIN series_comment as sc ON p.publication_id = sc.publication_id
             LEFT JOIN anidb_member as m ON sc.member_id = m.member_id
             LEFT JOIN publication_genre as pg ON p.publication_id = pg.publication_id
-                INNER JOIN genre as g ON g.genre_id = pg.genre_id
+            INNER JOIN genre as g ON g.genre_id = pg.genre_id
             LEFT JOIN series_type as st ON st.type_id = p.series_type
             LEFT JOIN publication_publisher pp ON pp.publication_id = p.publication_id
-                INNER JOIN publisher pu ON pu.publisher_id = pp.publisher_id
+            INNER JOIN publisher pu ON pu.publisher_id = pp.publisher_id
         WHERE p.publication_id = #{publicationId}
         ORDER BY p.publication_id ASC
     </select>
 
     <select id="countAllPublications" resultType="int">
-        SELECT COUNT(*)
-        FROM publication
+        SELECT
+            (COUNT(distinct p.publication_id))
+        FROM publication p
+        LEFT JOIN series_type as st ON st.type_id = p.series_type
+        LEFT JOIN publication_genre pg on pg.publication_id=p.publication_id
+        LEFT JOIN genre g on g.genre_id = pg.genre_id
+        LEFT JOIN publication_publisher pp on pp.publication_id = p.publication_id
+        LEFT JOIN publisher pu on pp.publisher_id = pu.publisher_id
+        <where>
+            <!-- Conditional filtering for title -->
+            <if test="title != null and title != ''">
+                AND p.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+
+            <!-- Conditional filtering for publisher -->
+            <if test="publisher != null and publisher != ''">
+                AND pu.publisher_name LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+
+            <!-- Conditional filtering for type -->
+            <if test="typeString != null and typeString != ''">
+                AND st.type_name LIKE CONCAT ('%', #{typeString}, '%')
+            </if>
+
+            <!-- Conditional filtering for year range -->
+            <if test="startYear != null">
+                AND p.published_date &gt;= #{startDateTime}
+            </if>
+            <if test="endYear != null">
+                AND p.published_date &lt;= #{endDateTime}
+            </if>
+
+            <!-- Conditional filtering for status list -->
+            <if test="status != null and !status.isEmpty()">
+                AND p.status_in_origin_country IN
+                <foreach item="item" index="index" collection="status" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+            <!-- Conditional filtering for volume range -->
+            <if test="startVolume != null">
+                AND p.volumes_in_origin_country &gt;= #{startVolume}
+            </if>
+            <if test="endVolume != null">
+                AND p.volumes_in_origin_country &lt;= #{endVolume}
+            </if>
+
+            <!-- Conditional filtering for genre list -->
+            <if test="genreList != null and !isEmpty()">
+                AND g.genre_name IN
+                <foreach item="item" index="index" collection="genreList" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+--         ORDER BY p.title ASC
     </select>
 
     <insert id="insertPublication"
@@ -232,54 +292,110 @@
         INSERT INTO publication (title, description, series_type, volumes_in_origin_country, status_in_origin_country,
                                  published_date, licensed, ranked, scores, cover_image_url)
         VALUES (#{title}, #{description}, #{seriesType}, #{volumesInOriginCountry}, #{statusInOriginCountry},
-                 #{publishedDate}, #{licensed}, #{ranked}, #{scores}, #{coverImageUrl})
+                #{publishedDate}, #{licensed}, #{ranked}, #{scores}, #{coverImageUrl})
     </insert>
 
     <insert id="insertPublicationNecessary"
             useGeneratedKeys="true" keyColumn="publication_id" keyProperty="publicationId"
             parameterType="com.aniDB.aniDB_backend.entity.Publication">
         INSERT INTO publication (title, series_type)
-            VALUES (#{title}, #{seriesType})
+        VALUES (#{title}, #{seriesType})
     </insert>
 
 
     <update id="updatePublication" parameterType="com.aniDB.aniDB_backend.entity.Publication">
         UPDATE publication
-        SET title = #{title},
-            description = #{description},
-            series_type = #{seriesType},
+        SET title                     = #{title},
+            description               = #{description},
+            series_type               = #{seriesType},
             volumes_in_origin_country = #{volumesInOriginCountry},
-            status_in_origin_country = #{statusInOriginCountry},
-            published_date = #{publishedDate},
-            licensed = #{licensed},
-            ranked = #{ranked},
-            scores = #{scores},
-            cover_image_url = #{coverImageUrl}
+            status_in_origin_country  = #{statusInOriginCountry},
+            published_date            = #{publishedDate},
+            licensed                  = #{licensed},
+            ranked                    = #{ranked},
+            scores                    = #{scores},
+            cover_image_url           = #{coverImageUrl}
         WHERE publication_id = #{publicationId}
     </update>
 
     <delete id="deletePublication" parameterType="java.lang.Long">
-        DELETE FROM publication WHERE publication_id = #{publicationId}
+        DELETE
+        FROM publication
+        WHERE publication_id = #{publicationId}
     </delete>
 
 
-<!--    Pagination Logic  -->
-    <select id="getPage" parameterType="org.springframework.data.domain.Pageable" resultMap="PublicationPageDTOMap">
+    <!--    Pagination Logic  -->
+    <select id="getPage" resultMap="PublicationPageDTOMap">
         SELECT
-            p.*,
-            st.type_name as st_type_name,
-            (
-                SELECT count(*) as upvotes
-                FROM upvoted_publication u
-                WHERE u.publication_id = p.publication_id
-            )
-
+        p.*,
+        st.type_name as st_type_name,
+        (
+        SELECT count(*) as upvotes
+        FROM upvoted_publication u
+        WHERE u.publication_id = p.publication_id
+        )
         FROM publication p
-            INNER JOIN series_type as st ON st.type_id = p.series_type
-        ORDER BY p.title ASC
-        LIMIT #{pageSize}
-        OFFSET #{pageNumber}
+        LEFT JOIN series_type as st ON st.type_id = p.series_type
+        LEFT JOIN publication_genre pg on pg.publication_id=p.publication_id
+        LEFT JOIN genre g on g.genre_id = pg.genre_id
+        LEFT JOIN publication_publisher pp on pp.publication_id = p.publication_id
+        LEFT JOIN publisher pu on pp.publisher_id = pu.publisher_id
+        <where>
+            <!-- Conditional filtering for title -->
+            <if test="advancedSearchDTO.title != null and advancedSearchDTO.title != ''">
+                AND p.title LIKE CONCAT('%', #{advancedSearchDTO.title}, '%')
+            </if>
+
+            <!-- Conditional filtering for publisher -->
+            <if test="advancedSearchDTO.publisher != null and advancedSearchDTO.publisher != ''">
+                AND pu.publisher_name LIKE CONCAT('%', #{advancedSearchDTO.publisher}, '%')
+            </if>
+
+            <!-- Conditional filtering for type -->
+            <if test="advancedSearchDTO.typeString != null and advancedSearchDTO.typeString != ''">
+                AND st.type_name LIKE CONCAT ('%', #{advancedSearchDTO.typeString}, '%')
+            </if>
+
+            <!-- Conditional filtering for year range -->
+            <if test="advancedSearchDTO.startYear != null">
+                AND p.published_date &gt;= #{advancedSearchDTO.startDateTime}
+            </if>
+            <if test="advancedSearchDTO.endYear != null">
+                AND p.published_date &lt;= #{advancedSearchDTO.endDateTime}
+            </if>
+
+            <!-- Conditional filtering for status list -->
+            <if test="advancedSearchDTO.status != null and !advancedSearchDTO.status.isEmpty()">
+                AND p.status_in_origin_country IN
+                <foreach item="item" index="index" collection="advancedSearchDTO.status" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+            <!-- Conditional filtering for volume range -->
+            <if test="advancedSearchDTO.startVolume != null">
+                AND p.volumes_in_origin_country &gt;= #{advancedSearchDTO.startVolume}
+            </if>
+            <if test="advancedSearchDTO.endVolume != null">
+                AND p.volumes_in_origin_country &lt;= #{advancedSearchDTO.endVolume}
+            </if>
+
+            <!-- Conditional filtering for genre list -->
+            <if test="advancedSearchDTO.genreList != null and !advancedSearchDTO.genreList.isEmpty()">
+                AND g.genre_name IN
+                <foreach item="item" index="index" collection="advancedSearchDTO.genreList" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY p.publication_id
+--         ORDER BY p.title ASC
+        LIMIT #{pageable.pageSize}
+        OFFSET #{pageable.offset}
     </select>
-<!--    Pagination Logic  -->
+    <!--    Pagination Logic  -->
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.repository;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
@@ -71,8 +72,8 @@ public class PublicationRepository {
      * @return the number of publications.
      */
     @Transactional
-    public int countAll() {
-        return publicationMapper.countAllPublications();
+    public int countAll(AdvancedSearchDTO advancedSearchDTO) {
+        return publicationMapper.countAllPublications(advancedSearchDTO);
     }
 
     /**
@@ -117,7 +118,7 @@ public class PublicationRepository {
 
 
     @Transactional
-    public List<PublicationPageDTO> getPage(Pageable pageable) {
-        return publicationMapper.getPage(pageable);
+    public List<PublicationPageDTO> getPage(Pageable pageable, AdvancedSearchDTO advancedSearchDTO) {
+        return publicationMapper.getPage(pageable, advancedSearchDTO);
     }
 }

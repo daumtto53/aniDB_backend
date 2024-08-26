@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
@@ -84,7 +85,8 @@ class PublicationMapperTest {
     @Test
     void selectAllPublications() {
         //given
-        int count = publicationMapper.countAllPublications();
+        AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build().setAdvancedSearchDTOToDefault();
+        int count = publicationMapper.countAllPublications(advancedSearchDTO);
 
         //when
         List<Publication> publications = publicationMapper.selectAllPublications();
@@ -138,8 +140,9 @@ class PublicationMapperTest {
 
     @Test
     void getPage() {
+        AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build().setAdvancedSearchDTOToDefault();
         Pageable pageable = new PageRequestDTO(1).getPageable();
-        List<PublicationPageDTO> page = publicationMapper.getPage(pageable);
+        List<PublicationPageDTO> page = publicationMapper.getPage(pageable, advancedSearchDTO);
         System.out.println(page.size());
         System.out.println(page);
     }

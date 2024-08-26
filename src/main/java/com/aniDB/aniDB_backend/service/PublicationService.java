@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.service;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
@@ -30,11 +31,13 @@ public class PublicationService {
         3. Page<EN> 객체 생성
         4. Page<EN> 객체를 DTO, PageInfo로 변환하는 클래스.
      */
-    public PageResultDTO<PublicationPageDTO, PublicationPageDTO> getPageResult(int page) {
+    public PageResultDTO<PublicationPageDTO, PublicationPageDTO> getPageResult(int page, AdvancedSearchDTO advancedSearchDTO) {
         Pageable pageable = new PageRequestDTO(page).getPageable();
-        List<PublicationPageDTO> result = publicationRepository.getPage(pageable);
+        advancedSearchDTO.convertYearToLocalDateTime();
+        log.info(advancedSearchDTO);
+        List<PublicationPageDTO> result = publicationRepository.getPage(pageable, advancedSearchDTO);
 
-        int totalCount = publicationRepository.countAll();
+        int totalCount = publicationRepository.countAll(advancedSearchDTO);
 
         Function<PublicationPageDTO, PublicationPageDTO> fn = (en -> en);
         Page<PublicationPageDTO> pageImpl = new PageImpl<>(result, pageable, totalCount);

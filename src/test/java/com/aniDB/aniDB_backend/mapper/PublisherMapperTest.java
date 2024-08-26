@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.DescendantOfPublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.LabelDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO;
@@ -96,7 +97,11 @@ class PublisherMapperTest {
 
     @Test
     void getPublisherPageDTO() {
+        AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build();
+        advancedSearchDTO.setAdvancedSearchDTOToDefault();
+
         Pageable pageable = new PageRequestDTO(1).getPageable();
+
         List<PublisherPageDTO> publisherPageDTO = publisherMapper.getPublisherPageDTO(pageable);
         System.out.println(publisherPageDTO);
 //        publisherPageDTO.stream().forEach(pageDTO -> {

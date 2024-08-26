@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
@@ -24,7 +25,7 @@ public interface PublicationMapper {
 
 
 
-    int countAllPublications();
+    int countAllPublications(AdvancedSearchDTO advancedSearchDTO);
     int insertPublication(Publication publication);
 
     int insertPublicationNecessary(Publication publication);
@@ -32,6 +33,6 @@ public interface PublicationMapper {
     int deletePublication(Long publicationId);
 
 
-    List<PublicationPageDTO> getPage(Pageable pageable);
+    List<PublicationPageDTO> getPage(Pageable pageable, AdvancedSearchDTO advancedSearchDTO);
 
 }
