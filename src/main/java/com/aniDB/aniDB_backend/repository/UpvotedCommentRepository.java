@@ -21,7 +21,11 @@ public class UpvotedCommentRepository {
         return upvotedCommentMapper.insertUpvotedComment(upvotedComment);
     }
 
-    public int delete(Long commentId) {
-        return upvotedCommentMapper.deleteUpvotedComment(commentId);
+    public int delete(UpvotedComment upvotedComment) {
+        return upvotedCommentMapper.deleteUpvotedComment(upvotedComment);
+    }
+
+    public int deleteByCommentId(Long commentId) {
+        return upvotedCommentMapper.deleteUpvotedCommentByCommentId(commentId);
     }
 }

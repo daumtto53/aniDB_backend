@@ -28,8 +28,8 @@ public class CommentService {
         return commentDTO;
     }
 
-    public void deleteComment(Long commentId) {
-        upvotedCommentMapper.deleteUpvotedComment(commentId);
+    public void deleteCommentByCommentId(Long commentId) {
+        upvotedCommentMapper.deleteUpvotedCommentByCommentId(commentId);
         commentRepository.deleteById(commentId);
     }
 }

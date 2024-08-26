@@ -17,7 +17,11 @@
     </insert>
 
 
-    <delete id="deleteUpvotedComment" parameterType="map">
+    <delete id="deleteUpvotedCommentByCommentId" parameterType="map">
         DELETE FROM upvoted_comment WHERE comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteUpvotedComment">
+        DELETE FROM upvoted_comment WHERE comment_id = #{commentId} and member_id = #{memberId}
     </delete>
 </mapper>
