@@ -22,6 +22,10 @@
         VALUES (#{memberId}, #{articleId})
     </insert>
 
+    <delete id="deleteUpvotedArticle" parameterType="map">
+        DELETE FROM upvoted_article WHERE article_id = #{articleId} and member_id = #{memberId}
+    </delete>
+
     <delete id="deleteUpvotedArticleById" parameterType="map">
         DELETE FROM upvoted_article WHERE article_id = #{articleId}
     </delete>

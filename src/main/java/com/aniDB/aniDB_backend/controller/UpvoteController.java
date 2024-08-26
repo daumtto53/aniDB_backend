@@ -1,8 +1,9 @@
 package com.aniDB.aniDB_backend.controller;
 
-import com.aniDB.aniDB_backend.service.UpvotedCommentService;
+import com.aniDB.aniDB_backend.service.UpvoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,15 +15,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @Log4j2
 @RequestMapping("upvote/")
-public class UpvotedCommentController {
+public class UpvoteController {
 
-    private final UpvotedCommentService upvotedCommentService;
+    private final UpvoteService upvoteService;
+
+    @PostMapping("/article/{articleId}")
+    public ResponseEntity upvoteArticle(
+            @PathVariable Long articleId
+    ) {
+        upvoteService.upvoteArticle(articleId);
+        return ResponseEntity.ok("upvoted");
+    }
+
+    @DeleteMapping("/article/{articleId}")
+    public ResponseEntity deleteArticle(
+            @PathVariable Long articleId
+    ) {
+        upvoteService.cancelUpvoteArticle(articleId);
+        return ResponseEntity.ok("canceled");
+    }
 
     @PostMapping("/comment/{commentId}")
     public ResponseEntity upvoteComment(
             @PathVariable Long commentId
     ) {
-        upvotedCommentService.upvoteComment(commentId);
+        upvoteService.upvoteComment(commentId);
         return ResponseEntity.ok("upvoted");
     }
 
@@ -30,8 +47,9 @@ public class UpvotedCommentController {
     public ResponseEntity deleteComment(
             @PathVariable Long commentId
     ) {
-        upvotedCommentService.cancelUpvoteComment(commentId);
+        upvoteService.cancelUpvoteComment(commentId);
         return ResponseEntity.ok("canceled");
     }
+
 
 }

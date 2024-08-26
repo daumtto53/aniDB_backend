@@ -21,8 +21,11 @@ public class UpvotedArticleRepository {
         return  upvotedArticleMapper.insertUpvotedArticle(upvotedArticle);
     }
 
+    public int delete(UpvotedArticle upvotedArticle){
+        return upvotedArticleMapper.deleteUpvotedArticle(upvotedArticle);
+    }
 
-    public int delete(Long articleId) {
+    public int deleteByArticleId(Long articleId) {
         return  upvotedArticleMapper.deleteUpvotedArticleById(articleId);
     }
 }

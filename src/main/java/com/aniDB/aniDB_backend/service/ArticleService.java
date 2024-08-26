@@ -60,7 +60,7 @@ public class ArticleService {
     }
 
     public void deleteArticle(Long articleId) {
-        upvotedArticleRepository.delete(articleId);
+        upvotedArticleRepository.deleteByArticleId(articleId);
         commentRepository.deleteByArticleId(articleId);
         articleRepository.deleteById(articleId);
     }

@@ -11,5 +11,6 @@ public interface UpvotedArticleMapper {
 
     int insertUpvotedArticle(UpvotedArticle upvotedArticle);
 
+    int deleteUpvotedArticle(UpvotedArticle upvotedArticle);
     int deleteUpvotedArticleById(@Param("articleId") Long articleId);
 }
