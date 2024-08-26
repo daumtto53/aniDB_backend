@@ -77,12 +77,13 @@ class UpvotedPublicationMapperTest {
 
     @Test
     void deleteUpvotedPublication() {
-        int cnt = upvotedPublicationMapper.deleteUpvotedPublication(upvotedPublication.getMemberId(), upvotedPublication.getPublicationId());
+        UpvotedPublication build = UpvotedPublication.builder()
+                .memberId(upvotedPublication.getMemberId())
+                .publicationId(upvotedPublication.getPublicationId()).build();
+        int cnt = upvotedPublicationMapper.deleteUpvotedPublication(build);
         Assertions.assertThat(cnt).isEqualTo(1);
-        cnt = upvotedPublicationMapper.deleteUpvotedPublication(upvotedPublication.getMemberId(), upvotedPublication.getPublicationId());
+        cnt = upvotedPublicationMapper.deleteUpvotedPublication(build);
         Assertions.assertThat(cnt).isEqualTo(0);
-
-
     }
 
 }

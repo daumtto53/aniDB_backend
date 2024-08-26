@@ -28,7 +28,7 @@ public class UpvotedPublicationRepository {
         }
     }
 
-    public void delete(Long memberId, Long publicationId) {
-        upvotedPublicationMapper.deleteUpvotedPublication(memberId, publicationId);
+    public void delete(UpvotedPublication upvotedPublication) {
+        upvotedPublicationMapper.deleteUpvotedPublication(upvotedPublication);
     }
 }

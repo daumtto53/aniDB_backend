@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.entity.UpvotedComment;
 import com.aniDB.aniDB_backend.entity.UpvotedPublication;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +18,5 @@ public interface UpvotedPublicationMapper {
 
     int updateUpvotedPublication(UpvotedPublication upvotedPublication);
 
-    int deleteUpvotedPublication(Long memberId, Long publicationId);
+    int deleteUpvotedPublication(UpvotedPublication upvotedPublication);
 }

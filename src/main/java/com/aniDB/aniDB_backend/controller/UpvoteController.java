@@ -17,6 +17,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("upvote/")
 public class UpvoteController {
 
+    @PostMapping("/publication/{publicationId}")
+    public ResponseEntity upvotePublication(
+            @PathVariable Long publicationId
+    ) {
+        upvoteService.upvotePublication(publicationId);
+        return ResponseEntity.ok("upvoted");
+    }
+
+    @DeleteMapping("/publication/{publicationId}")
+    public ResponseEntity deletePublication(
+            @PathVariable Long publicationId
+    ) {
+        upvoteService.cancelUpvotePublication(publicationId);
+        return ResponseEntity.ok("canceled");
+    }
+
+
+
     private final UpvoteService upvoteService;
 
     @PostMapping("/article/{articleId}")
