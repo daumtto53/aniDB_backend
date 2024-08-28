@@ -3,6 +3,7 @@ package com.aniDB.aniDB_backend.repository;
 import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import com.aniDB.aniDB_backend.mapper.PublicationMapper;
 import lombok.RequiredArgsConstructor;
@@ -72,8 +73,8 @@ public class PublicationRepository {
      * @return the number of publications.
      */
     @Transactional
-    public int countAll(AdvancedSearchDTO advancedSearchDTO) {
-        return publicationMapper.countAllPublications(advancedSearchDTO);
+    public int countAll(SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO) {
+        return publicationMapper.countAllPublications(searchDTO, advancedSearchDTO);
     }
 
     /**
@@ -118,7 +119,7 @@ public class PublicationRepository {
 
 
     @Transactional
-    public List<PublicationPageDTO> getPage(Pageable pageable, AdvancedSearchDTO advancedSearchDTO) {
-        return publicationMapper.getPage(pageable, advancedSearchDTO);
+    public List<PublicationPageDTO> getPage(Pageable pageable, SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO) {
+        return publicationMapper.getPage(pageable, searchDTO, advancedSearchDTO);
     }
 }

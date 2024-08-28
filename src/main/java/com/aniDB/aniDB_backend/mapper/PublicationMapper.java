@@ -3,6 +3,7 @@ package com.aniDB.aniDB_backend.mapper;
 import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,7 +26,7 @@ public interface PublicationMapper {
 
 
 
-    int countAllPublications(AdvancedSearchDTO advancedSearchDTO);
+    int countAllPublications(SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO);
     int insertPublication(Publication publication);
 
     int insertPublicationNecessary(Publication publication);
@@ -33,6 +34,6 @@ public interface PublicationMapper {
     int deletePublication(Long publicationId);
 
 
-    List<PublicationPageDTO> getPage(Pageable pageable, AdvancedSearchDTO advancedSearchDTO);
+    List<PublicationPageDTO> getPage(Pageable pageable, SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO);
 
 }

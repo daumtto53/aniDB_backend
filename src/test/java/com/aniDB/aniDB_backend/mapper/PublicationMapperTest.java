@@ -4,6 +4,7 @@ import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,7 +88,8 @@ class PublicationMapperTest {
     void selectAllPublications() {
         //given
         AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build().setAdvancedSearchDTOToDefault();
-        int count = publicationMapper.countAllPublications(advancedSearchDTO);
+        SearchDTO searchDTO = SearchDTO.builder().build();
+        int count = publicationMapper.countAllPublications(searchDTO, advancedSearchDTO);
 
         //when
         List<Publication> publications = publicationMapper.selectAllPublications();
@@ -141,8 +144,9 @@ class PublicationMapperTest {
     @Test
     void getPage() {
         AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build().setAdvancedSearchDTOToDefault();
+        SearchDTO searchDTO = SearchDTO.builder().build();
         Pageable pageable = new PageRequestDTO(1).getPageable();
-        List<PublicationPageDTO> page = publicationMapper.getPage(pageable, advancedSearchDTO);
+        List<PublicationPageDTO> page = publicationMapper.getPage(pageable,searchDTO, advancedSearchDTO);
         System.out.println(page.size());
         System.out.println(page);
     }

@@ -234,49 +234,49 @@
         LEFT JOIN publisher pu on pp.publisher_id = pu.publisher_id
         <where>
             <!-- Conditional filtering for title -->
-            <if test="title != null and title != ''">
-                AND p.title LIKE CONCAT('%', #{title}, '%')
+            <if test="advancedSearchDTO.title != null and advancedSearchDTO.title != ''">
+                AND p.title LIKE CONCAT('%', #{advancedSearchDTO.title}, '%')
             </if>
 
             <!-- Conditional filtering for publisher -->
-            <if test="publisher != null and publisher != ''">
-                AND pu.publisher_name LIKE CONCAT('%', #{publisher}, '%')
+            <if test="advancedSearchDTO.publisher != null and advancedSearchDTO.publisher != ''">
+                AND pu.publisher_name LIKE CONCAT('%', #{advancedSearchDTO.publisher}, '%')
             </if>
 
             <!-- Conditional filtering for type -->
-            <if test="typeString != null and typeString != ''">
-                AND st.type_name LIKE CONCAT ('%', #{typeString}, '%')
+            <if test="advancedSearchDTO.typeString != null and advancedSearchDTO.typeString != ''">
+                AND st.type_name LIKE CONCAT ('%', #{advancedSearchDTO.typeString}, '%')
             </if>
 
             <!-- Conditional filtering for year range -->
-            <if test="startYear != null">
-                AND p.published_date &gt;= #{startDateTime}
+            <if test="advancedSearchDTO.startYear != null">
+                AND p.published_date &gt;= #{advancedSearchDTO.startDateTime}
             </if>
-            <if test="endYear != null">
-                AND p.published_date &lt;= #{endDateTime}
+            <if test="advancedSearchDTO.endYear != null">
+                AND p.published_date &lt;= #{advancedSearchDTO.endDateTime}
             </if>
 
             <!-- Conditional filtering for status list -->
-            <if test="status != null and !status.isEmpty()">
+            <if test="advancedSearchDTO.status != null and !advancedSearchDTO.status.isEmpty()">
                 AND p.status_in_origin_country IN
-                <foreach item="item" index="index" collection="status" open="(" close=")"
+                <foreach item="item" index="index" collection="advancedSearchDTO.status" open="(" close=")"
                          separator=",">
                     #{item}
                 </foreach>
             </if>
 
             <!-- Conditional filtering for volume range -->
-            <if test="startVolume != null">
-                AND p.volumes_in_origin_country &gt;= #{startVolume}
+            <if test="advancedSearchDTO.startVolume != null">
+                AND p.volumes_in_origin_country &gt;= #{advancedSearchDTO.startVolume}
             </if>
-            <if test="endVolume != null">
-                AND p.volumes_in_origin_country &lt;= #{endVolume}
+            <if test="advancedSearchDTO.endVolume != null">
+                AND p.volumes_in_origin_country &lt;= #{advancedSearchDTO.endVolume}
             </if>
 
             <!-- Conditional filtering for genre list -->
-            <if test="genreList != null and !isEmpty()">
+            <if test="advancedSearchDTO.genreList != null and !advancedSearchDTO.isEmpty()">
                 AND g.genre_name IN
-                <foreach item="item" index="index" collection="genreList" open="(" close=")"
+                <foreach item="item" index="index" collection="advancedSearchDTO.genreList" open="(" close=")"
                          separator=",">
                     #{item}
                 </foreach>
