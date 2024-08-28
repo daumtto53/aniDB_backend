@@ -12,6 +12,24 @@
         <result property="updatedAt" column="updated_at" />
     </resultMap>
 
+    <resultMap id="seriesCommentDTOResultMap" type="com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO">
+        <!-- Mapping for SeriesCommentDTO fields -->
+        <id property="seriesCommentId" column="series_comment_id"/>
+        <result property="publicationId" column="publication_id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="anidbComment" column="anidb_comment"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+        <!-- Nested resultMap for MemberDTO association -->
+        <association property="memberDTO" javaType="com.aniDB.aniDB_backend.dto.entity.member.MemberDTO">
+            <id property="memberId" column="member_id"/>
+            <result property="loginId" column="loginid"/>
+            <result property="name" column="member_name"/>
+            <result property="nickname" column="nickname"/>
+        </association>
+    </resultMap>
+
     <!-- Series Comment Operations -->
     <insert id="insertSeriesComment"  parameterType="com.aniDB.aniDB_backend.entity.SeriesComment"
         useGeneratedKeys="true" keyColumn="series_comment_id" keyProperty="seriesCommentId"
@@ -27,6 +45,14 @@
     <select id="selectSeriesCommentsByPublicationId" parameterType="java.lang.Long" resultMap="seriesCommentMap">
         SELECT * FROM series_comment WHERE publication_id = #{publicationId}
     </select>
+
+    <select id="selectSeriesCommentDTOByPublicationId" resultMap="seriesCommentDTOResultMap">
+        SELECT *
+        FROM series_comment sc
+            INNER JOIN anidb_member m on sc.member_id = m.member_id
+        WHERE publication_id = #{publicationId}
+    </select>
+
 
     <update id="updateSeriesComment" parameterType="com.aniDB.aniDB_backend.entity.SeriesComment">
         UPDATE series_comment

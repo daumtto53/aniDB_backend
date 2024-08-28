@@ -3,11 +3,13 @@ package com.aniDB.aniDB_backend.service;
 import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
+import com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publication;
 import com.aniDB.aniDB_backend.repository.PublicationRepository;
+import com.aniDB.aniDB_backend.repository.SeriesCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import java.util.function.Function;
 public class PublicationService {
 
     private final PublicationRepository publicationRepository;
+    private final SeriesCommentRepository seriesCommentRepository;
 
     /*
         1. Pageable
@@ -37,7 +40,6 @@ public class PublicationService {
         advancedSearchDTO.convertYearToLocalDateTime();
         log.info(advancedSearchDTO);
         List<PublicationPageDTO> result = publicationRepository.getPage(pageable, searchDTO, advancedSearchDTO);
-
         int totalCount = publicationRepository.countAll(searchDTO, advancedSearchDTO);
 
         Function<PublicationPageDTO, PublicationPageDTO> fn = (en -> en);
@@ -47,6 +49,10 @@ public class PublicationService {
     }
 
     public PublicationDTO getPublicationById(Long publicationId) {
-        return publicationRepository.getPublicationDTOById(publicationId);
+        PublicationDTO publicationDTOById = publicationRepository.getPublicationDTOById(publicationId);
+        /* get CommentList? */
+        List<SeriesCommentDTO> seriesCommentDTOS = seriesCommentRepository.selectSeriesCommentDTOByPublicationId(publicationId);
+        publicationDTOById.setSeriesCommentList(seriesCommentDTOS);
+        return publicationDTOById;
     }
 }

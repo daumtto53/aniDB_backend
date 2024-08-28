@@ -1,5 +1,6 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.series_comment.SeriesCommentDTO;
 import com.aniDB.aniDB_backend.entity.Member;
 import com.aniDB.aniDB_backend.entity.Publication;
 import com.aniDB.aniDB_backend.entity.SeriesComment;
@@ -85,5 +86,11 @@ class SeriesCommentMapperTest {
     void deleteSeriesComment() {
         int cnt = seriesCommentMapper.deleteSeriesComment(seriesComment.getSeriesCommentId());
         Assertions.assertThat(cnt).isEqualTo(1);
+    }
+
+    @Test
+    void selectSeriesCommentDTOByPublicationId() {
+        List<SeriesCommentDTO> seriesComments = seriesCommentMapper.selectSeriesCommentDTOByPublicationId(1L);
+        System.out.println(seriesComments );
     }
 }
