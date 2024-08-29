@@ -9,5 +9,6 @@ import lombok.*;
 @Builder
 @ToString
 public class GenreDTO {
+    Long genreId;
     String genreName;
 }

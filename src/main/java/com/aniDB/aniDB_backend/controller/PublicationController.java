@@ -1,6 +1,7 @@
 package com.aniDB.aniDB_backend.controller;
 
 import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchFormDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
@@ -51,7 +52,14 @@ public class PublicationController {
         pageResult + redirect URL까지 반환할 것.
         redirectURL은 /discover/publication으로 하여, 그곳에서 pagination과 함께 기타 등등 할 것.
      */
-    @PostMapping("/search")
+
+    @GetMapping("/advancedSearch")
+    public ResponseEntity getAdvancedSearchForm() {
+        AdvancedSearchFormDTO advancedSearchForm = publicationService.getAdvancedSearchForm();
+        return ResponseEntity.ok(advancedSearchForm);
+    }
+
+    @PostMapping("/advancedSearch")
     public ResponseEntity discoverPublicationByAdvancedSearch(
             @RequestBody AdvancedSearchDTO advancedSearchDTO
     ) {
@@ -61,6 +69,7 @@ public class PublicationController {
         Map<String, Object> response = new HashMap<>();
         response.put("redirectUrl", "/discover/publication");
         response.put("data", pageResult);
+        log.info("pageResult in advancedSearch ={}", pageResult);
         return ResponseEntity.ok(response);
     }
 

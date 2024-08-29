@@ -301,7 +301,7 @@
             </if>
 
             <!-- Conditional filtering for genre list -->
-            <if test="advancedSearchDTO.genreList != null and !advancedSearchDTO.isEmpty()">
+            <if test="advancedSearchDTO.genreList != null and !advancedSearchDTO.genreList.isEmpty()">
                 AND g.genre_name IN
                 <foreach item="item" index="index" collection="advancedSearchDTO.genreList" open="(" close=")"
                          separator=",">
