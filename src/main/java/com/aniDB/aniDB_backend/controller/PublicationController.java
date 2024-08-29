@@ -28,11 +28,8 @@ public class PublicationController {
      */
     @GetMapping(value = "/discover/publication", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResultDTO<PublicationPageDTO, PublicationPageDTO>> discoverPublication(
-            @ModelAttribute AdvancedSearchDTO advancedSearchDTO,
-//            @RequestParam(value = "type", required = false) String type,
             @RequestParam("page") String page,
-//            @RequestParam(value = "option", required = false) String option,
-//            @RequestParam(value = "searchQuery", required = false) String searchQuery
+            @ModelAttribute AdvancedSearchDTO advancedSearchDTO,
             @ModelAttribute SearchDTO searchDTO
     ) {
         log.info("Model Attribute : advancedSearchDTO = {}", advancedSearchDTO);
@@ -66,4 +63,5 @@ public class PublicationController {
         response.put("data", pageResult);
         return ResponseEntity.ok(response);
     }
+
 }

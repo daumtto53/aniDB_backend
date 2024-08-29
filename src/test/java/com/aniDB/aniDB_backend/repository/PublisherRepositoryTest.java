@@ -1,8 +1,10 @@
 package com.aniDB.aniDB_backend.repository;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -27,8 +29,10 @@ class PublisherRepositoryTest {
 
     @Test
     void getPage() {
+        AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build();
+        SearchDTO searchDTO = SearchDTO.builder().build();
         Pageable pageable = new PageRequestDTO(1).getPageable();
-        List<PublisherPageDTO> page = publisherRepository.getPage(pageable);
+        List<PublisherPageDTO> page = publisherRepository.getPage(pageable, searchDTO, advancedSearchDTO);
         System.out.println(page);
     }
 

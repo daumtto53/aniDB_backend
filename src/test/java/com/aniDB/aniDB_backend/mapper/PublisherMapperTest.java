@@ -6,6 +6,7 @@ import com.aniDB.aniDB_backend.dto.entity.publisher.LabelDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherPageDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publisher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,10 +100,10 @@ class PublisherMapperTest {
     void getPublisherPageDTO() {
         AdvancedSearchDTO advancedSearchDTO = AdvancedSearchDTO.builder().build();
         advancedSearchDTO.setAdvancedSearchDTOToDefault();
-
+        SearchDTO searchDTO = SearchDTO.builder().build();
         Pageable pageable = new PageRequestDTO(1).getPageable();
 
-        List<PublisherPageDTO> publisherPageDTO = publisherMapper.getPublisherPageDTO(pageable);
+        List<PublisherPageDTO> publisherPageDTO = publisherMapper.getPublisherPageDTO(pageable, searchDTO, advancedSearchDTO);
         System.out.println(publisherPageDTO);
 //        publisherPageDTO.stream().forEach(pageDTO -> {
 //            int cnt = publisherMapper.getPublicationCountOfPublisherDescendant(pageDTO.getPublisherId());

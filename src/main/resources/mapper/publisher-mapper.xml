@@ -68,13 +68,22 @@
 <!--    하위 레이블 가져오기 // view 처럼 사용-->
 
 <!--    하위 레이블의 publication Count 는 따로 가져올 것..-->
-    <select id="getPublisherPageDTO" parameterType="org.springframework.data.domain.Pageable"
+    <select id="getPublisherPageDTO"
             resultMap="PublisherPageDTO">
         SELECT publisher_id, publisher_name
         FROM publisher
-        ORDER BY publisher_name ASC
-        LIMIT #{pageSize}
-        OFFSET #{offset}
+        WHERE
+            1 = 1
+            <choose>
+                <when test="searchDTO.option == 'title'">
+                    AND (
+                        publisher_name LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                    )
+                </when>
+            </choose>
+        ORDER BY publisher_id
+        LIMIT #{pageable.pageSize}
+        OFFSET #{pageable.offset}
     </select>
 
 <!--    하위 레이블의 publication Count 는 따로 가져올 것..-->
@@ -110,7 +119,7 @@
     </select>
 
     <select id="getLabelPublicationById" parameterType="java.util.List" resultMap="DescendantOfPublisherDTOResultMap">
-        SELECT p.publication_id, p.title
+        SELECT distinct(p.publication_id), p.title
         FROM publisher pu 
             INNER JOIN publication_publisher pp ON pu.publisher_id = pp.publisher_id
             INNER JOIN publication p ON p.publication_id = pp.publication_id

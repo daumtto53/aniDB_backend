@@ -1,9 +1,11 @@
 package com.aniDB.aniDB_backend.repository;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.DescendantOfPublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.LabelDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherPageDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publisher;
 import com.aniDB.aniDB_backend.mapper.PublisherMapper;
 import org.springframework.data.domain.Page;
@@ -39,8 +41,8 @@ public class PublisherRepository {
         return publisherMapper.delete(publisherId);
     }
 
-    public List<PublisherPageDTO> getPage(Pageable pageable) {
-        List<PublisherPageDTO> publisherPageDTO = publisherMapper.getPublisherPageDTO(pageable);
+    public List<PublisherPageDTO> getPage(Pageable pageable, SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO) {
+        List<PublisherPageDTO> publisherPageDTO = publisherMapper.getPublisherPageDTO(pageable, searchDTO, advancedSearchDTO);
         publisherPageDTO.stream().forEach(e -> {
             int cnt = publisherMapper.getPublicationCountOfPublisherDescendant(e.getPublisherId());
             e.setDescendantPublicationCount(cnt);

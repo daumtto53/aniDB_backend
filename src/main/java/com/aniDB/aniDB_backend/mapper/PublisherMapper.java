@@ -1,10 +1,12 @@
 package com.aniDB.aniDB_backend.mapper;
 
+import com.aniDB.aniDB_backend.dto.entity.advanced_search.AdvancedSearchDTO;
 import com.aniDB.aniDB_backend.dto.entity.publication.PublicationDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.DescendantOfPublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.LabelDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherDTO;
 import com.aniDB.aniDB_backend.dto.entity.publisher.PublisherPageDTO;
+import com.aniDB.aniDB_backend.dto.search.SearchDTO;
 import com.aniDB.aniDB_backend.entity.Publisher;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +22,7 @@ public interface PublisherMapper {
     int insert(Publisher publisher);
     int update(Publisher publisher);
     int delete(Long publisherId);
-    List<PublisherPageDTO> getPublisherPageDTO(Pageable pageable);
+    List<PublisherPageDTO> getPublisherPageDTO(Pageable pageable, SearchDTO searchDTO, AdvancedSearchDTO advancedSearchDTO);
     PublisherDTO getPublisherDTOById(Long publisherId);
 
     //use this query with getPublisherPageDTO and getPublisherDTOById.
