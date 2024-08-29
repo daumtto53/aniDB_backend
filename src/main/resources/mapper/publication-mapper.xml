@@ -233,6 +233,33 @@
         LEFT JOIN publication_publisher pp on pp.publication_id = p.publication_id
         LEFT JOIN publisher pu on pp.publisher_id = pu.publisher_id
         <where>
+            1 = 1
+            <!-- Conditional filtering for SearchQuery And Option-->
+            <if test="searchDTO.option == 'title'">
+                AND (
+                p.title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                OR EXISTS (
+                SELECT 1
+                FROM alternative_title a
+                WHERE a.publication_id = p.publication_id
+                AND a.alternative_title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+                )
+            </if>
+
+            <if test="searchDTO.option == 'titleOrDescription'">
+                AND (
+                p.title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                OR EXISTS (
+                SELECT 1
+                FROM alternative_title a
+                WHERE a.publication_id = p.publication_id
+                AND a.alternative_title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+                OR p.description LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+            </if>
+
             <!-- Conditional filtering for title -->
             <if test="advancedSearchDTO.title != null and advancedSearchDTO.title != ''">
                 AND p.title LIKE CONCAT('%', #{advancedSearchDTO.title}, '%')
@@ -342,6 +369,33 @@
         LEFT JOIN publication_publisher pp on pp.publication_id = p.publication_id
         LEFT JOIN publisher pu on pp.publisher_id = pu.publisher_id
         <where>
+            1 = 1
+            <!-- Conditional filtering for SearchQuery And Option-->
+            <if test="searchDTO.option == 'title'">
+                AND (
+                p.title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                OR EXISTS (
+                SELECT 1
+                FROM alternative_title a
+                WHERE a.publication_id = p.publication_id
+                AND a.alternative_title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+                )
+            </if>
+
+            <if test="searchDTO.option == 'titleOrDescription'">
+                AND (
+                p.title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                OR EXISTS (
+                SELECT 1
+                FROM alternative_title a
+                WHERE a.publication_id = p.publication_id
+                AND a.alternative_title LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+                OR p.description LIKE CONCAT('%', #{searchDTO.searchQuery}, '%')
+                )
+            </if>
+
             <!-- Conditional filtering for title -->
             <if test="advancedSearchDTO.title != null and advancedSearchDTO.title != ''">
                 AND p.title LIKE CONCAT('%', #{advancedSearchDTO.title}, '%')
