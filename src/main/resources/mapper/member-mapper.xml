@@ -57,19 +57,25 @@
         WHERE member_id = #{memberId}
     </select>
 
+    <select id="selectMemberByUsername" parameterType="java.lang.String" resultType="com.aniDB.aniDB_backend.entity.Member">
+        SELECT *, member_id as memberId, member_password as password
+        FROM anidb_member
+        where username LIKE #{username}
+    </select>
+
     <update id="updateMember" parameterType="com.aniDB.aniDB_backend.entity.Member">
-        UPDATE member
+        UPDATE anidb_member
         SET username     = #{username},
-            login_id     = #{loginId},
-            password     = #{password},
+            loginid     = #{loginId},
+            member_password     = #{password},
             email        = #{email},
             isFromSocial = #{isFromSocial},
             isDisabled   = #{isDisabled},
-            name         = #{name},
+            member_name         = #{name},
             nickname     = #{nickname},
             birthday     = #{birthday},
             gender       = #{gender},
-            description  = #{member_description}
+            member_description  = #{description}
         WHERE member_id = #{memberId}
     </update>
 

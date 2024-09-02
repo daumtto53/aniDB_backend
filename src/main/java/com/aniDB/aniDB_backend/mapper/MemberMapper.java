@@ -15,6 +15,7 @@ public interface MemberMapper {
     void insertMemberNecessary(Member member);
 
     Member selectMemberById(Long memberId);
+    Member selectMemberByUsername(String username);
 
     void updateMember(Member member);
 

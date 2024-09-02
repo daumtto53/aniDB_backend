@@ -32,6 +32,11 @@ public class RoleRepository {
     }
 
     @Transactional
+    public List<String> findByMemberId(Long memberId) {
+        return roleMapper.selectRoleByMemberId(memberId);
+    }
+
+    @Transactional
     public void update(Role role) {
         return;
     }

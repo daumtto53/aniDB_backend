@@ -15,6 +15,8 @@ public interface RoleMapper {
 
     Role selectRoleByRoleName(String roleName);
 
+    List<String> selectRoleByMemberId(Long memberId);
+
     void updateRole(Role role);
 
     int deleteRole(Long roleId);
