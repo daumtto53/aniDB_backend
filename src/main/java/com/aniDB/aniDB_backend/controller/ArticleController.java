@@ -5,6 +5,7 @@ import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.coyote.Response;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,14 +26,14 @@ public class ArticleController {
     public ResponseEntity<PageResultDTO> getArticlePageDTO(
             @PathVariable("id") Long publicationId,
             @RequestParam(value = "type", required = false) String type,
-            @RequestParam("page") String page,
+            @RequestParam(value = "page", defaultValue = "1") String page,
             @RequestParam(value = "option", required = false) String option,
             @RequestParam(value = "searchQuery", required = false) String searchQuery
     ){
         PageResultDTO<ArticleDTO, ArticleDTO> articleDTOPage = articleService.getArticleDTOPage(Integer.valueOf(page), publicationId);
+        log.info("articleDTOPage = {}", articleDTOPage);
         return ResponseEntity.ok(articleDTOPage);
     }
-
 
     /**
      * 세부 article 정보 반환
@@ -54,6 +55,8 @@ public class ArticleController {
             @PathVariable("id") Long publicationId,
             @RequestBody ArticleDTO articleDTO
     ) {
+        if (articleDTO.getContent().equals("") || articleDTO.getTitle().equals(""))
+            return ResponseEntity.noContent().build();
         ArticleDTO article = articleService.createArticle(publicationId, articleDTO);
         return ResponseEntity.ok(article);
     }

@@ -40,6 +40,10 @@ public class ArticleRepository {
         articleMapper.updateArticle(article);
     }
 
+    public void incrementViews(Long articleId) {
+        articleMapper.incrementViews(articleId);
+    }
+
     public void deleteById(Long articleId) {
         upvotedArticleMapper.deleteUpvotedArticleById(articleId);
         articleMapper.deleteArticleById(articleId);

@@ -18,6 +18,7 @@ public class ArticleDTO {
     private Long articleId;
     private MemberDTO memberDTO;
     private Long publicationId;
+    private String publicationTitle;
     private Long animeId;
     private String title;
     private String content;
@@ -25,6 +26,8 @@ public class ArticleDTO {
     private Integer views = 0;
     @Builder.Default
     private Integer upvotes = 0;
+    @Builder.Default
+    private Integer commentCount = 0;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

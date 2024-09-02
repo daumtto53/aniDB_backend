@@ -22,9 +22,11 @@
         <result property="animeId" column="anime_id"/>
         <result property="publicationId" column="publication_id"/>
         <result property="title" column="title"/>
+        <result property="publicationTitle" column="p_title" />
         <result property="content" column="content"/>
         <result property="views" column="views"/>
         <result property="upvotes" column="u_upvotes"/>
+        <result property="commentCount" column="c_commentCount" />
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
 
@@ -108,12 +110,14 @@
                acm.member_id as acm_member_id,
                acm.loginid as acm_login_id,
                acm.member_name as acm_name,
-               acm.nickname as acm_nickname
+               acm.nickname as acm_nickname,
+                p.title as p_title
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
                  LEFT JOIN anidb_comment ac on ac.article_id = a.article_id
                  left join upvoted_comment uc on uc.comment_id = ac.comment_id
                     left JOIN anidb_member acm on acm.member_id = ac.member_id
+                INNER JOIN publication p on a.publication_id = p.publication_id
         WHERE a.article_id = #{articleId}
         group by ac.comment_id;
     </select>
@@ -175,10 +179,12 @@
                m.loginid          as m_login_id,
                m.member_name      as m_member_name,
                m.nickname         as m_nickname,
-               count(u.member_id) as u_upvotes
+               count(u.member_id) as u_upvotes,
+                count(c.comment_id) as c_commentCount
         FROM anidb_article a
                  INNER JOIN anidb_member m on m.member_id = a.member_id
                  LEFT join upvoted_article u on u.article_id = a.article_id
+                 LEFT JOIN anidb_comment c on c.article_id = a.article_id
         WHERE a.publication_id = #{publicationId}
         group by a.article_id
             LIMIT #{pageable.pageSize}

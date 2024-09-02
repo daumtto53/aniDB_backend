@@ -5,14 +5,19 @@ import com.aniDB.aniDB_backend.dto.entity.member.MemberDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageRequestDTO;
 import com.aniDB.aniDB_backend.dto.pagination.PageResultDTO;
 import com.aniDB.aniDB_backend.entity.Article;
+import com.aniDB.aniDB_backend.entity.Member;
 import com.aniDB.aniDB_backend.repository.ArticleRepository;
 import com.aniDB.aniDB_backend.repository.CommentRepository;
+import com.aniDB.aniDB_backend.repository.MemberRepository;
 import com.aniDB.aniDB_backend.repository.UpvotedArticleRepository;
+import com.aniDB.aniDB_backend.security.model.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +30,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UpvotedArticleRepository upvotedArticleRepository;
     private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
 
     public PageResultDTO<ArticleDTO, ArticleDTO> getArticleDTOPage(int page, Long publicationId) {
         Pageable pageable = new PageRequestDTO(page).getPageable();
@@ -38,6 +44,7 @@ public class ArticleService {
     }
 
     public ArticleDTO getArticle(Long articleId) {
+        articleRepository.incrementViews(articleId);
         return articleRepository.getArticleDTOById(articleId);
     }
 
@@ -45,7 +52,10 @@ public class ArticleService {
     public ArticleDTO createArticle(Long publicationId, ArticleDTO articleDTO) {
         articleDTO.setPublicationId(publicationId);
         // Securtiy Context.
-        articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Member member = memberRepository.findByUsername(username);
+        articleDTO.setMemberDTO(MemberDTO.builder().memberId(member.getMemberId()).build());
         int affectedCount = articleRepository.createArticle(articleDTO);
         return articleDTO;
     }
