@@ -16,9 +16,9 @@ public class CustomOAuth2User implements OAuth2User {
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
 
     public CustomOAuth2User(OAuth2UserDTO oAuth2UserDTO) {
-//        attributes.put("username", oAuth2UserDTO.getUsername());
+        attributes.put("username", oAuth2UserDTO.getUsername());
         attributes.put("roles", oAuth2UserDTO.getRoles());
-        attributes.put("name", oAuth2UserDTO.getUsername());
+//        attributes.put("name", oAuth2UserDTO.getUsername());
 //        attributes.put("email", oAuth2UserDTO.getEmail());
     }
 

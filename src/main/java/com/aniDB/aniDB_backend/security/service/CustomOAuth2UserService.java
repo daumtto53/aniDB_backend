@@ -65,8 +65,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             NaverResponseDTO naverResponseDTO = (NaverResponseDTO) oAuth2Response;
             member.setEmail(naverResponseDTO.getEmail());
             member.setName(naverResponseDTO.getName());
-            member.setGender(naverResponseDTO.getGender());
-            member.setBirthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()));
+//            member.setGender(naverResponseDTO.getGender());
+//            member.setBirthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()));
             member.setNickname(naverResponseDTO.getNickname());
             memberRepository.update(member);
             List<String> rolesList = roleRepository.findByMemberId(member.getMemberId());
@@ -117,8 +117,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .isDisabled(false)
                 .name(oAuth2Response.getName())
                 .nickname(naverResponseDTO.getNickname())
-                .birthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()))
-                .gender(naverResponseDTO.getGender())
+//                .birthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()))
+//                .gender(naverResponseDTO.getGender())
                 .build();
         memberRepository.save(member);
         //Role 추가

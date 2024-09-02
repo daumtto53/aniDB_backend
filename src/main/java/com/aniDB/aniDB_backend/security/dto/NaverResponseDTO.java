@@ -26,8 +26,8 @@ public class NaverResponseDTO implements OAuth2Response{
         this.name = response.get("name").toString();
         this.nickname = response.get("nickname") != null ? response.get("nickname").toString() : null;
         this.profileImageUrl = response.get("profile_image") != null ? response.get("profile_image").toString() : null;
-        this.gender = response.get("gender") != null ? response.get("gender").toString() : null;
-        this.birthday = response.get("birthday") != null ? response.get("birthday").toString() : null;
-        this.birthYear = response.get("birthyear") != null ? response.get("birthyear").toString() : null;
+//        this.gender = response.get("gender") != null ? response.get("gender").toString() : null;
+//        this.birthday = response.get("birthday") != null ? response.get("birthday").toString() : null;
+//        this.birthYear = response.get("birthyear") != null ? response.get("birthyear").toString() : null;
     }
 }
