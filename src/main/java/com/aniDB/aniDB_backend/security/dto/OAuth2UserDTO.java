@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class OAuth2UserDTO {
     private String username;
     private String email;
