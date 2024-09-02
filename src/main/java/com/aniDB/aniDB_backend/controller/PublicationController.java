@@ -29,7 +29,7 @@ public class PublicationController {
      */
     @GetMapping(value = "/discover/publication", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResultDTO<PublicationPageDTO, PublicationPageDTO>> discoverPublication(
-            @RequestParam("page") String page,
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page,
             @ModelAttribute AdvancedSearchDTO advancedSearchDTO,
             @ModelAttribute SearchDTO searchDTO
     ) {
@@ -63,6 +63,7 @@ public class PublicationController {
     public ResponseEntity discoverPublicationByAdvancedSearch(
             @RequestBody AdvancedSearchDTO advancedSearchDTO
     ) {
+        String redirectSubPath = "/discover/publication?" + advancedSearchDTO.getTypeStringForUrl();
         log.info("request Body  = {}", advancedSearchDTO);
         SearchDTO searchDTO = SearchDTO.builder().build();
         PageResultDTO<PublicationPageDTO, PublicationPageDTO> pageResult = publicationService.getPageResult(1, searchDTO, advancedSearchDTO);

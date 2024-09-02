@@ -55,4 +55,15 @@ public class AdvancedSearchDTO {
         if (endYear != null)
             endDateTime = Year.of(endYear).atMonth(12).atDay(31).atStartOfDay();
     }
+
+    public String getTypeStringForUrl() {
+        if (this.typeString != null) {
+            if (this.typeString.equals("Light Novel"))
+                return "Light%20Novel";
+            else
+                return this.typeString;
+        }
+        else
+            return null;
+    }
 }
