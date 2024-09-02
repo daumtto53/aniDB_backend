@@ -64,12 +64,13 @@ public class ArticleController {
     /**
      * article 수정
      */
-    @PutMapping("/article/{id}/{articleId}")
+    @PutMapping(value = "/article/{id}/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity modifyArticle(
             @PathVariable("id") Long publicationId,
             @PathVariable("articleId") Long articleId,
             @RequestBody ArticleDTO articleDTO
     ) {
+        log.info("modifyArticle = {}", articleDTO);
         ArticleDTO result = articleService.modifyArticle(articleId, articleDTO);
         return ResponseEntity.ok(result);
     }

@@ -64,7 +64,10 @@ public class ArticleService {
     public ArticleDTO modifyArticle(Long articleId ,ArticleDTO articleDTO) {
         articleDTO.setArticleId(articleId);
         // Security Context.
-        articleDTO.setMemberDTO(MemberDTO.builder().memberId(1L).build());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Member member = memberRepository.findByUsername(username);
+        articleDTO.setMemberDTO(MemberDTO.builder().memberId(member.getMemberId()).build());
         int affectedCount = articleRepository.modifyArticle(articleDTO);
         return articleDTO;
     }
