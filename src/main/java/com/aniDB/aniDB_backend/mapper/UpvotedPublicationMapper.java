@@ -14,9 +14,9 @@ public interface UpvotedPublicationMapper {
 
     List<UpvotedPublication> selectUpvotedPublicationByPublicationId(Long publicationId);
 
-    int insertUpvotedPublication(UpvotedPublication upvotedPublication);
+    UpvotedPublication selectUpvotedPublication(Long memberId, Long publicationId);
 
-    int updateUpvotedPublication(UpvotedPublication upvotedPublication);
+    int insertUpvotedPublication(UpvotedPublication upvotedPublication);
 
     int deleteUpvotedPublication(UpvotedPublication upvotedPublication);
 }

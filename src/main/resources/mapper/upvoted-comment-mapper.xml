@@ -11,6 +11,10 @@
         SELECT * FROM upvoted_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
     </select>
 
+    <select id="selectUpvotedComment" parameterType="map" resultMap="UpvotedCommentResultMap">
+        SELECT * FROM upvoted_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+    </select>
+
     <insert id="insertUpvotedComment">
         INSERT INTO upvoted_comment (member_id, comment_id)
         VALUES (#{memberId}, #{commentId})

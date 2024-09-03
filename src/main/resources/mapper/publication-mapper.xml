@@ -203,9 +203,9 @@
                m.nickname           as m_nickname,
                st.type_name         as st_type_name,
                pu.publisher_name    as pu_publisher_name,
-               (SELECT count(*) as upvotes
+               (SELECT count(*)
                 FROM upvoted_publication u
-                WHERE u.publication_id = p.publication_id)
+                WHERE u.publication_id = p.publication_id) as upvotes
 
         FROM publication p
                  LEFT JOIN alternative_title as at
@@ -358,10 +358,10 @@
         p.*,
         st.type_name as st_type_name,
         (
-        SELECT count(*) as upvotes
+        SELECT count(*)
         FROM upvoted_publication u
         WHERE u.publication_id = p.publication_id
-        )
+        ) as upvotes
         FROM publication p
         LEFT JOIN series_type as st ON st.type_id = p.series_type
         LEFT JOIN publication_genre pg on pg.publication_id=p.publication_id

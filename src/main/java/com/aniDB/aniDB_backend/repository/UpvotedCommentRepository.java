@@ -17,6 +17,10 @@ public class UpvotedCommentRepository {
         return upvotedCommentMapper.selectUpvotedCommentById(memberId, commentId);
     }
 
+    public UpvotedComment find(Long memberId, Long commentId) {
+        return upvotedCommentMapper.selectUpvotedCommentById(memberId, commentId);
+    }
+
     public int save(UpvotedComment upvotedComment) {
         return upvotedCommentMapper.insertUpvotedComment(upvotedComment);
     }

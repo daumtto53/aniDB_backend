@@ -15,6 +15,10 @@
         SELECT * FROM upvoted_publication WHERE publication_id = #{publicationId}
     </select>
 
+    <select id="selectUpvotedPublication" parameterType="map" resultMap="UpvotedPublicationResultMap">
+        SELECT * from upvoted_publication WHERE member_id = #{memberId} and publication_id = #{publicationId}
+    </select>
+
     <insert id="insertUpvotedPublication" parameterType="com.aniDB.aniDB_backend.entity.UpvotedPublication">
         INSERT INTO upvoted_publication (member_id, publication_id)
         VALUES (#{memberId}, #{publicationId} )

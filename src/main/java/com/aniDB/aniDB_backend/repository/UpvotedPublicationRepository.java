@@ -20,12 +20,12 @@ public class UpvotedPublicationRepository {
         return upvotedPublicationMapper.selectUpvotedPublicationByPublicationId(publicationId);
     }
 
+    public UpvotedPublication find(Long memberId, Long publicationId) {
+        return upvotedPublicationMapper.selectUpvotedPublication(memberId, publicationId);
+    }
+
     public void save(UpvotedPublication upvotedPublication) {
-        if (upvotedPublication.getMemberId() != null && upvotedPublication.getPublicationId() != null) {
-            upvotedPublicationMapper.updateUpvotedPublication(upvotedPublication);
-        } else {
             upvotedPublicationMapper.insertUpvotedPublication(upvotedPublication);
-        }
     }
 
     public void delete(UpvotedPublication upvotedPublication) {

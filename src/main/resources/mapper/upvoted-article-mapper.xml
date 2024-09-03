@@ -13,6 +13,10 @@
         SELECT * FROM upvoted_article WHERE article_id = #{articleId}
     </select>
 
+    <select id="selectUpvotedArticle" parameterType="map" resultMap="UpvotedArticleResultMap">
+        select * from upvoted_article where article_id=#{articleId} and member_id=#{memberId}
+    </select>
+
     <select id="countById" parameterType="java.lang.Long" resultType="int" >
         SELECT * FROM upvoted_article WHERE article_id = #{articleId}
     </select>

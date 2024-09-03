@@ -17,6 +17,10 @@ public class UpvotedArticleRepository {
         return upvotedArticleMapper.selectUpvotedArticleById(articleId);
     }
 
+    public UpvotedArticle find(Long memberId, Long articleId) {
+        return upvotedArticleMapper.selectUpvotedArticle(memberId, articleId);
+    }
+
     public int save(UpvotedArticle upvotedArticle) {
         return  upvotedArticleMapper.insertUpvotedArticle(upvotedArticle);
     }
