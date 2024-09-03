@@ -10,6 +10,7 @@ import org.apache.coyote.Response;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class SeriesCommentController {
 
     @DeleteMapping("/publication/{id}/comment/{commentId}")
     public ResponseEntity deleteSeriesComment (
+            @PathVariable("id") Long publicationId,
             @PathVariable Long commentId
     ) {
         seriesCommentService.deleteSeriesComment(commentId);
