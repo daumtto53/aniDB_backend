@@ -90,4 +90,32 @@ public class UpvoteController {
     }
 
 
+//    @GetMapping("/comment/{commentId}")
+//    public ResponseEntity<Boolean> isSeriesCommentUpvoted(
+//            @PathVariable Long commentId
+//    ) {
+//        Boolean commentUpvoted = upvoteService.isSeriesCommentUpvoted(commentId);
+//        return ResponseEntity.ok(commentUpvoted);
+//    }
+//
+//    @PostMapping("/comment/{commentId}")
+//    public ResponseEntity upvoteSeriesComment(
+//            @PathVariable Long commentId
+//    ) {
+//        upvoteService.isSeriesCommentUpvoted(commentId);
+//        return ResponseEntity.ok("upvoted");
+//    }
+//
+//    @DeleteMapping("/comment/{commentId}")
+//    public ResponseEntity deleteSeriesComment(
+//            @PathVariable Long commentId
+//    ) {
+//        upvoteService.cancelSeriesUpvoteComment(commentId);
+//        return ResponseEntity.ok("canceled");
+//    }
+
+
+
+
+
 }

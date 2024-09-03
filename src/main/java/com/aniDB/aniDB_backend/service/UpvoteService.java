@@ -1,13 +1,7 @@
 package com.aniDB.aniDB_backend.service;
 
-import com.aniDB.aniDB_backend.entity.Member;
-import com.aniDB.aniDB_backend.entity.UpvotedArticle;
-import com.aniDB.aniDB_backend.entity.UpvotedComment;
-import com.aniDB.aniDB_backend.entity.UpvotedPublication;
-import com.aniDB.aniDB_backend.repository.MemberRepository;
-import com.aniDB.aniDB_backend.repository.UpvotedArticleRepository;
-import com.aniDB.aniDB_backend.repository.UpvotedCommentRepository;
-import com.aniDB.aniDB_backend.repository.UpvotedPublicationRepository;
+import com.aniDB.aniDB_backend.entity.*;
+import com.aniDB.aniDB_backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -22,8 +16,8 @@ public class UpvoteService {
     private final UpvotedCommentRepository upvotedCommentRepository;
     private final UpvotedArticleRepository upvotedArticleRepository;
     private final UpvotedPublicationRepository upvotedPublicationRepository;
+    private final UpvotedSeriesCommentRepository upvotedSeriesCommentRepository;
     private final MemberRepository memberRepository;
-
     //TEMPORARY ID
 
     public Boolean isPublicationUpvoted(Long publicationId) {
@@ -100,12 +94,38 @@ public class UpvoteService {
         upvotedCommentRepository.delete(upvotedComment);
     }
 
+    public Boolean isSeriesCommentUpvoted(Long commentId) {
+        UpvotedSeriesComment upvotedComment = upvotedSeriesCommentRepository.find(getMemberIdFromAuth(), commentId);
+        if (upvotedComment == null)
+            return false;
+        else
+            return true;
+    }
+
+    public void upvoteSeriesComment(Long commentId) {
+        UpvotedSeriesComment upvotedComment = UpvotedSeriesComment.builder()
+                .memberId(getMemberIdFromAuth())
+                .commentId(commentId)
+                .build();
+        upvotedSeriesCommentRepository.save(upvotedComment);
+    }
+
+    public void cancelSeriesUpvoteComment(Long commentId) {
+        UpvotedSeriesComment upvotedComment = UpvotedSeriesComment.builder()
+                .memberId(getMemberIdFromAuth())
+                .commentId(commentId)
+                .build();
+        upvotedSeriesCommentRepository.delete(upvotedComment);
+    }
+
     public Long getMemberIdFromAuth() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Member member = memberRepository.findByUsername(username);
         return member.getMemberId();
     }
+
+
 
 
 }

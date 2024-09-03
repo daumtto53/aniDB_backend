@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UpvotedComment {
+public class UpvotedSeriesComment {
     private Long memberId;
     private Long commentId;
     private LocalDateTime createdAt;

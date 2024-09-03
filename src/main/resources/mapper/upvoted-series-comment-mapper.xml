@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aniDB.aniDB_backend.mapper.UpvotedSeriesCommentMapper">
+    <resultMap id="UpvotedSeriesCommentResultMap" type="com.aniDB.aniDB_backend.entity.UpvotedSeriesComment">
+        <id property="memberId" column="member_id" />
+        <id property="commentId" column="comment_id" />
+    </resultMap>
+
+    <select id="selectUpvotedSeriesCommentById" parameterType="map" resultMap="UpvotedSeriesCommentResultMap">
+        SELECT * FROM upvoted_series_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+    </select>
+
+    <select id="selectUpvotedSeriesComment" parameterType="map" resultMap="UpvotedSeriesCommentResultMap">
+        SELECT * FROM upvoted_series_comment WHERE member_id = #{memberId} AND comment_id = #{commentId}
+    </select>
+
+    <insert id="insertUpvotedSeriesComment">
+        INSERT INTO upvoted_series_comment (member_id, comment_id)
+        VALUES (#{memberId}, #{commentId})
+    </insert>
+
+
+    <delete id="deleteUpvotedSeriesCommentByCommentId" parameterType="map">
+        DELETE FROM upvoted_series_comment WHERE comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteUpvotedSeriesComment">
+        DELETE FROM upvoted_series_comment WHERE comment_id = #{commentId} and member_id = #{memberId}
+    </delete>
+</mapper>
