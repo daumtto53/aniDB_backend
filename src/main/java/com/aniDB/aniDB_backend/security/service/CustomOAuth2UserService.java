@@ -6,6 +6,7 @@ import com.aniDB.aniDB_backend.entity.Role;
 import com.aniDB.aniDB_backend.repository.MemberRepository;
 import com.aniDB.aniDB_backend.repository.MemberRoleRepository;
 import com.aniDB.aniDB_backend.repository.RoleRepository;
+import com.aniDB.aniDB_backend.security.dto.GoogleResponseDTO;
 import com.aniDB.aniDB_backend.security.dto.NaverResponseDTO;
 import com.aniDB.aniDB_backend.security.dto.OAuth2Response;
 import com.aniDB.aniDB_backend.security.dto.OAuth2UserDTO;
@@ -48,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (oAuth2Response == null)
             return null;
 
-        String username = oAuth2Response.getProviderId();
+        String username = oAuth2Response.getProvider() + ":" + oAuth2Response.getProviderId();
         /*
             반환한 member의 정보로
                 1. user가 이미 DB에 등록되어있다면, update만 시키고, authentication을 만든다.
@@ -60,14 +61,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             registerOAuth2ResponseToMember(username, oAuth2Response);
             OAuth2UserDTO userDTO = createUserDTO(username, oAuth2Response);
             return new CustomOAuth2User(userDTO);
-        }
-        else {
-            NaverResponseDTO naverResponseDTO = (NaverResponseDTO) oAuth2Response;
-            member.setEmail(naverResponseDTO.getEmail());
-            member.setName(naverResponseDTO.getName());
+        } else {
+            member.setEmail(oAuth2Response.getEmail());
+            member.setName(oAuth2Response.getName());
 //            member.setGender(naverResponseDTO.getGender());
 //            member.setBirthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()));
-            member.setNickname(naverResponseDTO.getNickname());
+            String nickname = null;
+            if (oAuth2Response.getProvider().equals("naver")) {
+                nickname = ((NaverResponseDTO) oAuth2Response).getNickname();
+            }
+            else if (oAuth2Response.getProvider().equals("google")) {
+                nickname = ((GoogleResponseDTO) oAuth2Response).getNickname();
+            }
+            member.setNickname(nickname);
             memberRepository.update(member);
             List<String> rolesList = roleRepository.findByMemberId(member.getMemberId());
             OAuth2UserDTO userDTO = createuserDTO(username, member, rolesList);
@@ -80,6 +86,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2Response oAuth2Response;
         if (registrationId.equals("naver")) {
             oAuth2Response = new NaverResponseDTO(oAuth2User.getAttributes());
+        } else if (registrationId.equals("google")) {
+            oAuth2Response = new GoogleResponseDTO(oAuth2User.getAttributes());
         } else {
             return null;
         }
@@ -107,20 +115,37 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private void registerOAuth2ResponseToMember(String username, OAuth2Response oAuth2Response) {
-        NaverResponseDTO naverResponseDTO = (NaverResponseDTO) oAuth2Response;
-        Member member = Member.builder()
-                .username(username)
-                .email(oAuth2Response.getEmail())
-                .loginId(oAuth2Response.getProviderId())
-                .password(username)
-                .isFromSocial(true)
-                .isDisabled(false)
-                .name(oAuth2Response.getName())
-                .nickname(naverResponseDTO.getNickname())
+        Member member = null;
+        if (oAuth2Response.getProvider().equals("naver")) {
+            NaverResponseDTO naverResponseDTO = (NaverResponseDTO) oAuth2Response;
+            member = Member.builder()
+                    .username(username)
+                    .email(oAuth2Response.getEmail())
+                    .loginId(oAuth2Response.getProviderId())
+                    .password(username)
+                    .isFromSocial(true)
+                    .isDisabled(false)
+                    .name(oAuth2Response.getName())
+                    .nickname(naverResponseDTO.getNickname())
 //                .birthday(convertBirthdayBirthyearToLocalDateTime(naverResponseDTO.getBirthday(), naverResponseDTO.getBirthYear()))
 //                .gender(naverResponseDTO.getGender())
-                .build();
-        memberRepository.save(member);
+                    .build();
+        }
+        else if (oAuth2Response.getProvider().equals("google")) {
+            GoogleResponseDTO googleResponseDTO = (GoogleResponseDTO) oAuth2Response;
+            member = Member.builder()
+                    .username(username)
+                    .email(oAuth2Response.getEmail())
+                    .loginId(oAuth2Response.getProviderId())
+                    .password(username)
+                    .isFromSocial(true)
+                    .isDisabled(false)
+                    .name(oAuth2Response.getName())
+                    .nickname(googleResponseDTO.getNickname())
+                    .build();
+        }
+        if (member != null)
+            memberRepository.save(member);
         //Role 추가
         registerMemberRole(member);
     }
