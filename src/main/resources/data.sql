@@ -1,4 +1,4 @@
-USE anidb_test;
+USE anidb_batch_test;
 CREATE TABLE IF NOT EXISTS anidb_role (
     role_id INT PRIMARY KEY AUTO_INCREMENT,
     role_name VARCHAR(32),
