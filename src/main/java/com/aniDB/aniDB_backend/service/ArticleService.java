@@ -48,7 +48,7 @@ public class ArticleService {
         return articleRepository.getArticleDTOById(articleId);
     }
 
-     /* TODO Spring Context - member needed. */
+    /* TODO Spring Context - member needed. */
     public ArticleDTO createArticle(Long publicationId, ArticleDTO articleDTO) {
         articleDTO.setPublicationId(publicationId);
         // Securtiy Context.
@@ -61,7 +61,7 @@ public class ArticleService {
     }
 
     /* TODO Spring Context - member needed. */
-    public ArticleDTO modifyArticle(Long articleId ,ArticleDTO articleDTO) {
+    public ArticleDTO modifyArticle(Long articleId, ArticleDTO articleDTO) {
         articleDTO.setArticleId(articleId);
         // Security Context.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,4 +78,26 @@ public class ArticleService {
         articleRepository.deleteById(articleId);
     }
 
+    public boolean isAuthor(Long articleId, Authentication authentication) {
+        if (authentication == null || articleId == null) {
+            return false;
+        }
+
+        String username = authentication.getName();
+        ArticleDTO articleDTO = articleRepository.getArticleDTOById(articleId);
+        Member loggedInUserDTO = memberRepository.findByUsername(username);
+
+        if (username == null || articleDTO == null || articleDTO.getMemberDTO() == null || loggedInUserDTO == null) {
+            return false;
+        }
+
+        Long articleMemberId = articleDTO.getMemberDTO().getMemberId();
+        Long loggedInUserId = loggedInUserDTO.getMemberId();
+
+        if (articleMemberId == null || loggedInUserId == null) {
+            return false;
+        }
+
+        return articleMemberId.equals(loggedInUserId);
+    }
 }

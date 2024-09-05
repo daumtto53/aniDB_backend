@@ -2,6 +2,7 @@ package com.aniDB.aniDB_backend.service;
 
 import com.aniDB.aniDB_backend.dto.entity.comment.CommentDTO;
 import com.aniDB.aniDB_backend.dto.entity.member.MemberDTO;
+import com.aniDB.aniDB_backend.entity.Comment;
 import com.aniDB.aniDB_backend.entity.Member;
 import com.aniDB.aniDB_backend.mapper.UpvotedCommentMapper;
 import com.aniDB.aniDB_backend.repository.CommentRepository;
@@ -43,5 +44,22 @@ public class CommentService {
     public void deleteCommentByCommentId(Long commentId) {
         upvotedCommentMapper.deleteUpvotedCommentByCommentId(commentId);
         commentRepository.deleteById(commentId);
+    }
+
+    public boolean isAuthor(Long commentId, Authentication authentication) {
+        if (commentId == null || authentication == null)
+            return false;
+
+        String username = authentication.getName();
+
+        Comment byId = commentRepository.findById(commentId);
+
+        Member byUsername = memberRepository.findByUsername(username);
+        if (byUsername == null || byId == null)
+            return false;
+        Long memberId = byId.getMemberId();
+        if (memberId.equals(byUsername.getMemberId()))
+            return true;
+        return false;
     }
 }

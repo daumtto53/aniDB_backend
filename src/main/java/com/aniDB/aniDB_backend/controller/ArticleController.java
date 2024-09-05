@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,9 @@ public class ArticleController {
 
     /**
      * article 등록
+     * Authority 필요..
      */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/article/{id}")
     public ResponseEntity saveArticle(
             @PathVariable("id") Long publicationId,
@@ -63,7 +66,9 @@ public class ArticleController {
 
     /**
      * article 수정
+     * Authority 필요
      */
+    @PreAuthorize("hasRole('USER') && @articleService.isAuthor(#articleId, authentication)")
     @PutMapping(value = "/article/{id}/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity modifyArticle(
             @PathVariable("id") Long publicationId,
@@ -75,6 +80,11 @@ public class ArticleController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Autohrity 필요.
+     */
+
+    @PreAuthorize("hasRole('USER') && @articleService.isAuthor(#articleId, authentication)")
     @DeleteMapping("/article/{id}/{articleId}")
     public ResponseEntity deleteArticle(
             @PathVariable("id") Long publicationId,

@@ -42,4 +42,18 @@ public class SeriesCommentService {
     public void deleteSeriesComment(Long seriesCommentId) {
         seriesCommentRepository.deleteSeriesComment(seriesCommentId);
     }
+
+    public boolean isAuthor(Long seriesCommentId, Authentication authentication) {
+        String username = authentication.getName();
+
+        SeriesComment byId = seriesCommentRepository.findById(seriesCommentId);
+        if (byId == null)
+            return false;
+        Member byUsername = memberRepository.findByUsername(username);
+        if (byUsername == null)
+            return false;
+        if (byUsername.getMemberId().equals(byId.getMemberId()))
+            return true;
+        return false;
+    }
 }

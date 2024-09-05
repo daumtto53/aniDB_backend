@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,10 @@ public class UpvoteController {
         return ResponseEntity.ok(publicationUpvoted);
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/publication/{publicationId}")
     public ResponseEntity upvotePublication(
             @PathVariable Long publicationId
@@ -32,6 +37,10 @@ public class UpvoteController {
         return ResponseEntity.ok("upvoted");
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/publication/{publicationId}")
     public ResponseEntity deletePublication(
             @PathVariable Long publicationId
@@ -49,6 +58,10 @@ public class UpvoteController {
         return ResponseEntity.ok(articleUpvoted);
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/article/{articleId}")
     public ResponseEntity upvoteArticle(
             @PathVariable Long articleId
@@ -57,6 +70,10 @@ public class UpvoteController {
         return ResponseEntity.ok("upvoted");
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/article/{articleId}")
     public ResponseEntity deleteArticle(
             @PathVariable Long articleId
@@ -73,6 +90,10 @@ public class UpvoteController {
         return ResponseEntity.ok(commentUpvoted);
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}")
     public ResponseEntity upvoteComment(
             @PathVariable Long commentId
@@ -81,6 +102,10 @@ public class UpvoteController {
         return ResponseEntity.ok("upvoted");
     }
 
+    /**
+     * Authority 필요.
+     */
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity deleteComment(
             @PathVariable Long commentId
@@ -113,9 +138,5 @@ public class UpvoteController {
 //        upvoteService.cancelSeriesUpvoteComment(commentId);
 //        return ResponseEntity.ok("canceled");
 //    }
-
-
-
-
 
 }
