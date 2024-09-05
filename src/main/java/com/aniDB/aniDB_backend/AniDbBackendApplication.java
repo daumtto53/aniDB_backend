@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AniDbBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(AniDbBackendApplication.class);
-		app.setAdditionalProfiles("test_local");
-		app.run(args);
-//		SpringApplication.run(AniDbBackendApplication.class, args);
+//		SpringApplication app = new SpringApplication(AniDbBackendApplication.class);
+//		app.setAdditionalProfiles("test_local");
+//		app.run(args);
+		SpringApplication.run(AniDbBackendApplication.class, args);
 	}
 
 }
