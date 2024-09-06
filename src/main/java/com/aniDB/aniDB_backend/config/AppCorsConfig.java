@@ -23,5 +23,6 @@ public class AppCorsConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .exposedHeaders("Set-Cookie");
+        log.info("allowed cors origin = {}", endpointURI);
     }
 }

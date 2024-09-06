@@ -64,4 +64,4 @@ replay_pid*
 
 # Custom
 src/main/resources/oauth2.properties
-src/main/resources/oauth2.properties
+src/main/resources/oauth*.properties
