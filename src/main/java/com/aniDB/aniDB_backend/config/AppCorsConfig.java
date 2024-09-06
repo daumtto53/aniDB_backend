@@ -18,7 +18,8 @@ public class AppCorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         WebMvcConfigurer.super.addCorsMappings(registry);
         registry.addMapping("/**")
-                .allowedOrigins(endpointURI, "http://frontend-container:5173" )
+//                .allowedOrigins(endpointURI, "http://frontend-container:5173" )
+                .allowedOrigins(endpointURI)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
