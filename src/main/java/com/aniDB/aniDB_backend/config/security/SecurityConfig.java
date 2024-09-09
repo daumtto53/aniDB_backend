@@ -102,7 +102,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(customizer -> customizer
                 .requestMatchers("/**").permitAll()
         );
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         return http.build();
     }
 }
