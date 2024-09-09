@@ -54,8 +54,8 @@ public class SecurityConfig {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
                         configuration.setAllowedOrigins(Arrays.asList(
-                                client_uri
-//                                "http://frontend-container:5173"
+                                client_uri,
+                                "http://ec2-13-125-60-243.ap-northeast-2.compute.amazonaws.com:5173"
                         ));
                         log.info("allowed Cors origins = {}", client_uri);
                         configuration.setAllowedMethods(Collections.singletonList("*"));

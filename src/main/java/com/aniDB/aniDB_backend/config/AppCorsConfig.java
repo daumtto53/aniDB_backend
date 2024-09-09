@@ -19,7 +19,7 @@ public class AppCorsConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addCorsMappings(registry);
         registry.addMapping("/**")
 //                .allowedOrigins(endpointURI, "http://frontend-container:5173" )
-                .allowedOrigins(endpointURI)
+                .allowedOrigins(endpointURI, "http://ec2-13-125-60-243.ap-northeast-2.compute.amazonaws.com:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
