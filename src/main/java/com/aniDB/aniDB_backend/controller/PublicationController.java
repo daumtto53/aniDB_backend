@@ -10,6 +10,7 @@ import com.aniDB.aniDB_backend.service.PublicationService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class PublicationController {
     private final PublicationService publicationService;
 
+    @Value("${client-endpoint}")
+    private String client_uri;
     /*
         쿼리 파라미터로 값들을 받아올 것.
      */
@@ -68,7 +71,7 @@ public class PublicationController {
         SearchDTO searchDTO = SearchDTO.builder().build();
         PageResultDTO<PublicationPageDTO, PublicationPageDTO> pageResult = publicationService.getPageResult(1, searchDTO, advancedSearchDTO);
         Map<String, Object> response = new HashMap<>();
-        response.put("redirectUrl", "/discover/publication");
+        response.put("redirectUrl", client_uri + "/discover/publication");
         response.put("data", pageResult);
         log.info("pageResult in advancedSearch ={}", pageResult);
         return ResponseEntity.ok(response);
