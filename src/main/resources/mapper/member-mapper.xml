@@ -62,6 +62,12 @@
         where username LIKE #{username}
     </select>
 
+    <select id="selectMemberByLoginId" parameterType="java.lang.String" resultType="com.aniDB.aniDB_backend.entity.Member">
+        SELECT *, member_id as memberId, member_password as password
+        FROM anidb_member
+        where loginid LIKE #{loginId}
+    </select>
+
     <update id="updateMember" parameterType="com.aniDB.aniDB_backend.entity.Member">
         UPDATE anidb_member
         SET username     = #{username},

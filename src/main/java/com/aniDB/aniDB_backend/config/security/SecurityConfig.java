@@ -1,6 +1,7 @@
 package com.aniDB.aniDB_backend.config.security;
 
 import com.aniDB.aniDB_backend.security.filter.JWTFilter;
+import com.aniDB.aniDB_backend.security.filter.LoginFilter;
 import com.aniDB.aniDB_backend.security.handler.CustomAuthenticationEntryPoint;
 import com.aniDB.aniDB_backend.security.handler.CustomSuccessHandler;
 import com.aniDB.aniDB_backend.security.service.CustomOAuth2UserService;
@@ -12,12 +13,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -36,6 +41,7 @@ public class SecurityConfig {
     private final JWTUtils jwtUtils;
     private final JWTFilter jwtFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     @Value("${client-endpoint}")
     private String client_uri;
@@ -72,16 +78,19 @@ public class SecurityConfig {
 
         // JWTFilter -> OAuth2RedirectionFilter -> OAuth2LoginAuthFilter 의 순서로 진행.
         http.addFilterAfter(jwtFilter, OAuth2LoginAuthenticationFilter.class);
+        // Basic JWT Login
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtils),
+                UsernamePasswordAuthenticationFilter.class);
 
         // Login logic. UserInfo Endpoint를 설정한다. Login 성공 시, SuccessHandler를 설정한다.
         http.oauth2Login(configurer -> {
             configurer.userInfoEndpoint(
-                    userInfoEndpointConfig -> userInfoEndpointConfig
-                            .userService(customOAuth2UserService)
+                            userInfoEndpointConfig -> userInfoEndpointConfig
+                                    .userService(customOAuth2UserService)
                     )
                     .successHandler(customSuccessHandler)
                     .failureHandler((request, response, exception) ->
-                            customAuthenticationEntryPoint.commence(request,response,exception)
+                            customAuthenticationEntryPoint.commence(request, response, exception)
                     );
         });
 
@@ -104,5 +113,15 @@ public class SecurityConfig {
         );
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         return http.build();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }

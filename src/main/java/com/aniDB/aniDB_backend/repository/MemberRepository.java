@@ -39,6 +39,9 @@ public class MemberRepository {
     public Member findByUsername(String username) { return memberMapper.selectMemberByUsername(username); }
 
     @Transactional
+    public Member findByLoginId(String loginId) {return memberMapper.selectMemberByLoginId(loginId);}
+
+    @Transactional
     public void update(Member member) {
         memberMapper.updateMember(member);
     }

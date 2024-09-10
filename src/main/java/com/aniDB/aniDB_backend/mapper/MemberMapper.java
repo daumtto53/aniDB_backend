@@ -16,6 +16,7 @@ public interface MemberMapper {
 
     Member selectMemberById(Long memberId);
     Member selectMemberByUsername(String username);
+    Member selectMemberByLoginId(String loginId);
 
     void updateMember(Member member);
 
