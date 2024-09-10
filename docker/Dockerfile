@@ -72,7 +72,7 @@ RUN npm install -g http-server
 EXPOSE 8080 5173 3306
 
 # Start both backend and frontend
-CMD ["sh", "-c", "java -jar aniDB_backend-0.0.1-SNAPSHOT.jar & http-server frontend-dist -p 5173 --cors"]
-#CMD ["sh", "-c", "java -jar aniDB_backend-0.0.1-SNAPSHOT.jar & npm --prefix './frontend/aniDB/' run dev"]
+#CMD ["sh", "-c", "java -jar aniDB_backend-0.0.1-SNAPSHOT.jar & http-server frontend-dist -p 5173 --cors"]
+CMD ["sh", "-c", "java -jar aniDB_backend-0.0.1-SNAPSHOT.jar & npm --prefix './frontend/aniDB/' run dev -- --host"]
 
 # Keep the container alive with an infinite loop
